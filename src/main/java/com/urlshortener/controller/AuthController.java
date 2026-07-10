@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,7 +23,7 @@ public class AuthController {
         return ResponseEntity.ok(userService.authenticateUser(loginRequest));
     }
     @PostMapping("/public/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest){
+    public ResponseEntity<?> registerUser( @Valid @RequestBody RegisterRequest registerRequest){
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setPassword(registerRequest.getPassword());
