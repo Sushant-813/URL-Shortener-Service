@@ -39,9 +39,15 @@ public class UrlMappingController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Page<UrlMappingDTO>> getUserUrls( Principal principal,
                                                             @RequestParam(defaultValue = "0") int page,
-                                                            @RequestParam(defaultValue = "10") int size){
+                                                            @RequestParam(defaultValue = "10") int size,
+                                                            @RequestParam(defaultValue = "createdDate") String sortBy,
+                                                            @RequestParam(defaultValue = "desc") String direction){
         User user = userService.findByUsername(principal.getName());
-        Page<UrlMappingDTO> urls = urlMappingService.getUrlsByUser(user, page, size);
+        Page<UrlMappingDTO> urls = urlMappingService.getUrlsByUser( user,
+                page,
+                size,
+                sortBy,
+                direction);
         return ResponseEntity.ok(urls);
     }
 

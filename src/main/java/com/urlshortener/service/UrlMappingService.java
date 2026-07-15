@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +27,12 @@ public class UrlMappingService {
 
     private UrlMappingRepository urlMappingRepository;
     private ClickEventRepository clickEventRepository;
+    private static final List<String> ALLOWED_SORT_FIELDS = List.of(
+            "createdDate",
+            "clickCount",
+            "originalUrl",
+            "shortUrl"
+    );
     public UrlMappingDTO createShortUrl(String originalUrl, User user) {
         String shortUrl = generateShortUrl();
         UrlMapping urlMapping = new UrlMapping();
@@ -57,9 +64,33 @@ public class UrlMappingService {
         return shortUrl.toString();
     }
 
-    public Page<UrlMappingDTO> getUrlsByUser(User user, int page, int size) {
+    public Page<UrlMappingDTO> getUrlsByUser(
+            User user,
+            int page,
+            int size,
+            String sortBy,
+            String direction) {
 
-        Pageable pageable = PageRequest.of(page, size);
+
+        if (!ALLOWED_SORT_FIELDS.contains(sortBy)) {
+            throw new IllegalArgumentException(
+                    "Invalid sort field. Allowed values: " + ALLOWED_SORT_FIELDS
+            );
+        }
+
+        if (!direction.equalsIgnoreCase("asc")
+                && !direction.equalsIgnoreCase("desc")) {
+
+            throw new IllegalArgumentException(
+                    "Direction must be either asc or desc."
+            );
+        }
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
 
         Page<UrlMapping> urlPage =
                 urlMappingRepository.findByUser(user, pageable);
