@@ -104,4 +104,16 @@ public class UrlMappingService {
         }
         return urlMapping;
     }
+    public List<UrlMappingDTO> searchUrls(User user, String query){
+        List<UrlMapping> urlMappings =
+                urlMappingRepository.findByUserAndOriginalUrlContainingIgnoreCaseOrUserAndShortUrlContainingIgnoreCase(
+                        user,
+                        query,
+                        user,
+                        query
+                );
+        return urlMappings.stream()
+                .map(this::convertToDto)
+                .toList();
+    }
 }

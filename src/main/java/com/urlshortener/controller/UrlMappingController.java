@@ -69,6 +69,22 @@ public class UrlMappingController {
         Map<LocalDate,Long> totalClicks = urlMappingService.getTotalClicksByUserAndDate(user, start, end);
         return ResponseEntity.ok(totalClicks);
     }
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<UrlMappingDTO>> searchUrls(
+            @RequestParam String query,
+            Principal principal) {
+
+        if (query == null || query.trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        User user = userService.findByUsername(principal.getName());
+
+        List<UrlMappingDTO> urls = urlMappingService.searchUrls(user, query);
+
+        return ResponseEntity.ok(urls);
+    }
 
 
 }

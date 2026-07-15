@@ -13,4 +13,10 @@ public interface UrlMappingRepository extends JpaRepository<UrlMapping, Long> {
     UrlMapping findByShortUrl(String shortUrl);
     List<UrlMapping> findByUser(User user);
     Page<UrlMapping> findByUser(User user, Pageable pageable);
+    List<UrlMapping> findByUserAndOriginalUrlContainingIgnoreCaseOrUserAndShortUrlContainingIgnoreCase(
+            User user,
+            String originalUrl,
+            User userAgain,
+            String shortUrl
+    );
 }
