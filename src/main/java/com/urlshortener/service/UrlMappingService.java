@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @AllArgsConstructor
@@ -54,10 +57,14 @@ public class UrlMappingService {
         return shortUrl.toString();
     }
 
-    public List<UrlMappingDTO> getUrlsByUser(User user) {
-        return urlMappingRepository.findByUser(user).stream()
-                .map(this::convertToDto)
-                .toList();
+    public Page<UrlMappingDTO> getUrlsByUser(User user, int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<UrlMapping> urlPage =
+                urlMappingRepository.findByUser(user, pageable);
+
+        return urlPage.map(this::convertToDto);
     }
 
     public List<ClickEventDTO> getClickEventsByDate(String shortUrl, LocalDateTime start, LocalDateTime end) {

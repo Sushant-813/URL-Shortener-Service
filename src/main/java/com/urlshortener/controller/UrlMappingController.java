@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import org.springframework.data.domain.Page;
 
 @RestController
 @RequestMapping("/api/urls")
@@ -36,9 +37,11 @@ public class UrlMappingController {
     }
     @GetMapping("/myurls")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<UrlMappingDTO>> getUserUrls(Principal principal){
+    public ResponseEntity<Page<UrlMappingDTO>> getUserUrls( Principal principal,
+                                                            @RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "10") int size){
         User user = userService.findByUsername(principal.getName());
-        List<UrlMappingDTO> urls = urlMappingService.getUrlsByUser(user);
+        Page<UrlMappingDTO> urls = urlMappingService.getUrlsByUser(user, page, size);
         return ResponseEntity.ok(urls);
     }
 
