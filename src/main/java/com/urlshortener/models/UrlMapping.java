@@ -16,6 +16,7 @@ public class UrlMapping {
         private String shortUrl;
         private int clickCount=0;
         private LocalDateTime createdDate;
+        private boolean deleted = false;
 
         @ManyToOne
         @JoinColumn(name = "user_id")

@@ -93,13 +93,13 @@ public class UrlMappingService {
         Pageable pageable = PageRequest.of(page, size, sort);
 
         Page<UrlMapping> urlPage =
-                urlMappingRepository.findByUser(user, pageable);
+                urlMappingRepository.findByUserAndDeletedFalse(user, pageable);
 
         return urlPage.map(this::convertToDto);
     }
 
     public List<ClickEventDTO> getClickEventsByDate(String shortUrl, LocalDateTime start, LocalDateTime end) {
-        UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
+        UrlMapping urlMapping = urlMappingRepository.findByShortUrlAndDeletedFalse(shortUrl);
         if(urlMapping != null){
             return clickEventRepository.findByUrlMappingAndClickDateBetween(urlMapping, start, end).stream()
                     .collect(Collectors.groupingBy(click -> click.getClickDate().toLocalDate(), Collectors.counting()))
@@ -123,7 +123,7 @@ public class UrlMappingService {
     }
 
     public UrlMapping getOriginalUrl(String shortUrl) {
-        UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
+        UrlMapping urlMapping = urlMappingRepository.findByShortUrlAndDeletedFalse(shortUrl);
         if(urlMapping != null){
             urlMapping.setClickCount(urlMapping.getClickCount() +1);
             urlMappingRepository.save(urlMapping);
@@ -146,5 +146,16 @@ public class UrlMappingService {
         return urlMappings.stream()
                 .map(this::convertToDto)
                 .toList();
+    }
+    public void deleteUrl(Long id, User user) {
+
+        UrlMapping urlMapping = urlMappingRepository
+                .findByIdAndUserAndDeletedFalse(id, user)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("URL not found."));
+
+        urlMapping.setDeleted(true);
+
+        urlMappingRepository.save(urlMapping);
     }
 }

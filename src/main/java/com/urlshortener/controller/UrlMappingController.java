@@ -91,6 +91,17 @@ public class UrlMappingController {
 
         return ResponseEntity.ok(urls);
     }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Void> deleteUrl(@PathVariable Long id,
+                                          Principal principal) {
+
+        User user = userService.findByUsername(principal.getName());
+
+        urlMappingService.deleteUrl(id, user);
+
+        return ResponseEntity.noContent().build();
+    }
 
 
 }

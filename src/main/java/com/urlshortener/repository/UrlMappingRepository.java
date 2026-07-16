@@ -10,9 +10,10 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface UrlMappingRepository extends JpaRepository<UrlMapping, Long> {
-    UrlMapping findByShortUrl(String shortUrl);
+    UrlMapping findByShortUrlAndDeletedFalse(String shortUrl);
     List<UrlMapping> findByUser(User user);
-    Page<UrlMapping> findByUser(User user, Pageable pageable);
+    Page<UrlMapping> findByUserAndDeletedFalse(User user, Pageable pageable);
+    Optional<UrlMapping> findByIdAndUserAndDeletedFalse(Long id, User user);
     List<UrlMapping> findByUserAndOriginalUrlContainingIgnoreCaseOrUserAndShortUrlContainingIgnoreCase(
             User user,
             String originalUrl,
