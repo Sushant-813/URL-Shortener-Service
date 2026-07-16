@@ -15,15 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class RedirectController {
 
     private UrlMappingService urlMappingService;
+
     @GetMapping("/{shortUrl}")
-    public ResponseEntity<Void> redirect(@PathVariable String shortUrl){
+    public ResponseEntity<Void> redirect(@PathVariable String shortUrl) {
+
         UrlMapping urlMapping = urlMappingService.getOriginalUrl(shortUrl);
-        if(urlMapping != null){
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("Location", urlMapping.getOriginalUrl());
-            return ResponseEntity.status(302).headers(httpHeaders).build();
-        }else {
-            return ResponseEntity.notFound().build();
-        }
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Location", urlMapping.getOriginalUrl());
+
+        return ResponseEntity.status(302)
+                .headers(httpHeaders)
+                .build();
     }
 }

@@ -2,6 +2,8 @@ package com.urlshortener.service;
 
 import com.urlshortener.dtos.ClickEventDTO;
 import com.urlshortener.dtos.UrlMappingDTO;
+import com.urlshortener.exception.UrlInactiveException;
+import com.urlshortener.exception.UrlNotFoundException;
 import com.urlshortener.models.ClickEvent;
 import com.urlshortener.models.UrlMapping;
 import com.urlshortener.models.User;
@@ -124,18 +126,29 @@ public class UrlMappingService {
     }
 
     public UrlMapping getOriginalUrl(String shortUrl) {
+
         UrlMapping urlMapping = urlMappingRepository.findByShortUrlAndDeletedFalse(shortUrl);
-        if(urlMapping != null){
-            urlMapping.setClickCount(urlMapping.getClickCount() +1);
-            urlMappingRepository.save(urlMapping);
-            //Record Click Event
-            ClickEvent clickEvent = new ClickEvent();
-            clickEvent.setClickDate(LocalDateTime.now());
-            clickEvent.setUrlMapping(urlMapping);
-            clickEventRepository.save(clickEvent);
+
+        if (urlMapping == null) {
+            throw new UrlNotFoundException("Short URL not found.");
         }
+
+        if (!urlMapping.isActive()) {
+            throw new UrlInactiveException("Short URL is inactive.");
+        }
+
+        urlMapping.setClickCount(urlMapping.getClickCount() + 1);
+        urlMappingRepository.save(urlMapping);
+
+        ClickEvent clickEvent = new ClickEvent();
+        clickEvent.setClickDate(LocalDateTime.now());
+        clickEvent.setUrlMapping(urlMapping);
+        clickEventRepository.save(clickEvent);
+
         return urlMapping;
     }
+
+
     public List<UrlMappingDTO> searchUrls(User user, String query){
         List<UrlMapping> urlMappings =
                 urlMappingRepository.findByUserAndOriginalUrlContainingIgnoreCaseOrUserAndShortUrlContainingIgnoreCase(

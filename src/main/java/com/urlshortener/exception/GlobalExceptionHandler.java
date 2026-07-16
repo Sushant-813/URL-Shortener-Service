@@ -33,4 +33,14 @@ public class GlobalExceptionHandler {
                 .badRequest()
                 .body(ex.getMessage());
     }
+    @ExceptionHandler(UrlNotFoundException.class)
+    public ResponseEntity<String> handleUrlNotFound(UrlNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ex.getMessage());
+    }
+    @ExceptionHandler(UrlInactiveException.class)
+    public ResponseEntity<String> handleUrlInactive(UrlInactiveException ex) {
+        return ResponseEntity.status(HttpStatus.GONE)
+                .body(ex.getMessage());
+    }
 }
