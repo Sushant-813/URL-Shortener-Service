@@ -102,6 +102,18 @@ public class UrlMappingController {
 
         return ResponseEntity.noContent().build();
     }
+    @PatchMapping("/{id}/toggle")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<UrlMappingDTO> toggleUrlStatus(
+            @PathVariable Long id,
+            Principal principal) {
+
+        User user = userService.findByUsername(principal.getName());
+
+        UrlMappingDTO urlMappingDTO = urlMappingService.toggleUrlStatus(id, user);
+
+        return ResponseEntity.ok(urlMappingDTO);
+    }
 
 
 }

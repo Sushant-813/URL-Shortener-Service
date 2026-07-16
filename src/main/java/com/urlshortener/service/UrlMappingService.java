@@ -51,6 +51,7 @@ public class UrlMappingService {
         urlMappingDTO.setClickCount(urlMapping.getClickCount());
         urlMappingDTO.setCreatedDate(urlMapping.getCreatedDate());
         urlMappingDTO.setUsername(urlMapping.getUser().getUsername());
+        urlMappingDTO.setActive(urlMapping.isActive());
         return urlMappingDTO;
     }
 
@@ -157,5 +158,18 @@ public class UrlMappingService {
         urlMapping.setDeleted(true);
 
         urlMappingRepository.save(urlMapping);
+    }
+    public UrlMappingDTO toggleUrlStatus(Long id, User user) {
+
+        UrlMapping urlMapping = urlMappingRepository
+                .findByIdAndUser(id, user)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("URL not found."));
+
+        urlMapping.setActive(!urlMapping.isActive());
+
+        UrlMapping updatedUrl = urlMappingRepository.save(urlMapping);
+
+        return convertToDto(updatedUrl);
     }
 }

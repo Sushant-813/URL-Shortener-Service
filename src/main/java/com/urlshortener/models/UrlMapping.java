@@ -17,6 +17,7 @@ public class UrlMapping {
         private int clickCount=0;
         private LocalDateTime createdDate;
         private boolean deleted = false;
+        private boolean active = true;
 
         @ManyToOne
         @JoinColumn(name = "user_id")
