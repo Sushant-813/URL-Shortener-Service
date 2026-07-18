@@ -8,8 +8,6 @@ import jakarta.validation.constraints.Size;
 
 
 import java.util.Set;
-
-import java.util.Set;
 @Data
 public class RegisterRequest {
     @NotBlank(message = "Username cannot be blank")
