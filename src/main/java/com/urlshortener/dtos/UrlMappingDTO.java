@@ -13,5 +13,6 @@ public class UrlMappingDTO {
     private LocalDateTime createdDate;
     private String username;
     private boolean active;
+    private LocalDateTime expirationDate;
 
 }

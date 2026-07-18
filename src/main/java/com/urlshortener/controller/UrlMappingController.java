@@ -1,6 +1,7 @@
 package com.urlshortener.controller;
 
 import com.urlshortener.dtos.ClickEventDTO;
+import com.urlshortener.dtos.CreateUrlRequest;
 import com.urlshortener.dtos.UrlMappingDTO;
 import com.urlshortener.models.User;
 import com.urlshortener.service.UrlMappingService;
@@ -28,11 +29,16 @@ public class UrlMappingController {
     //https://abc.com/HOpozTwU --> https://example.com
     @PostMapping("/shorten")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<UrlMappingDTO> createShortUrl(@RequestBody Map<String, String> request,
+    public ResponseEntity<UrlMappingDTO> createShortUrl(@RequestBody CreateUrlRequest request,
                                                         Principal principal){
-        String originalUrl = request.get("originalUrl");
+        String originalUrl = request.getOriginalUrl();
         User user = userService.findByUsername(principal.getName());
-        UrlMappingDTO urlMappingDTO= urlMappingService.createShortUrl(originalUrl, user);
+        UrlMappingDTO urlMappingDTO =
+                urlMappingService.createShortUrl(
+                        request.getOriginalUrl(),
+                        request.getExpirationDate(),
+                        user
+                );
         return ResponseEntity.ok(urlMappingDTO);
     }
     @GetMapping("/myurls")

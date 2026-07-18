@@ -2,6 +2,8 @@ package com.urlshortener.service;
 
 import com.urlshortener.dtos.ClickEventDTO;
 import com.urlshortener.dtos.UrlMappingDTO;
+import com.urlshortener.exception.InvalidExpirationDateException;
+import com.urlshortener.exception.UrlExpiredException;
 import com.urlshortener.exception.UrlInactiveException;
 import com.urlshortener.exception.UrlNotFoundException;
 import com.urlshortener.models.ClickEvent;
@@ -35,16 +37,32 @@ public class UrlMappingService {
             "originalUrl",
             "shortUrl"
     );
-    public UrlMappingDTO createShortUrl(String originalUrl, User user) {
+
+    public UrlMappingDTO createShortUrl(
+            String originalUrl,
+            LocalDateTime expirationDate,
+            User user) {
+
+        if (expirationDate != null &&
+                expirationDate.isBefore(LocalDateTime.now())) {
+            throw new InvalidExpirationDateException(
+                    "Expiration date must be in the future.");
+        }
+
         String shortUrl = generateShortUrl();
+
         UrlMapping urlMapping = new UrlMapping();
         urlMapping.setOriginalUrl(originalUrl);
         urlMapping.setShortUrl(shortUrl);
         urlMapping.setUser(user);
+        urlMapping.setExpirationDate(expirationDate);
         urlMapping.setCreatedDate(LocalDateTime.now());
+
         UrlMapping savedUrlMapping = urlMappingRepository.save(urlMapping);
+
         return convertToDto(savedUrlMapping);
     }
+
     private UrlMappingDTO convertToDto(UrlMapping urlMapping){
         UrlMappingDTO urlMappingDTO = new UrlMappingDTO();
         urlMappingDTO.setId(urlMapping.getId());
@@ -54,6 +72,7 @@ public class UrlMappingService {
         urlMappingDTO.setCreatedDate(urlMapping.getCreatedDate());
         urlMappingDTO.setUsername(urlMapping.getUser().getUsername());
         urlMappingDTO.setActive(urlMapping.isActive());
+        urlMappingDTO.setExpirationDate(urlMapping.getExpirationDate());
         return urlMappingDTO;
     }
 
@@ -135,6 +154,11 @@ public class UrlMappingService {
 
         if (!urlMapping.isActive()) {
             throw new UrlInactiveException("Short URL is inactive.");
+        }
+        if (urlMapping.getExpirationDate() != null &&
+                LocalDateTime.now().isAfter(urlMapping.getExpirationDate())) {
+
+            throw new UrlExpiredException("Short URL has expired.");
         }
 
         urlMapping.setClickCount(urlMapping.getClickCount() + 1);

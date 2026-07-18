@@ -18,6 +18,7 @@ public class UrlMapping {
         private LocalDateTime createdDate;
         private boolean deleted = false;
         private boolean active = true;
+        private LocalDateTime expirationDate;
 
         @ManyToOne
         @JoinColumn(name = "user_id")

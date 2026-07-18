@@ -43,4 +43,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.GONE)
                 .body(ex.getMessage());
     }
+    @ExceptionHandler(InvalidExpirationDateException.class)
+    public ResponseEntity<String> handleInvalidExpirationDate(
+            InvalidExpirationDateException ex) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
+    }
+    @ExceptionHandler(UrlExpiredException.class)
+    public ResponseEntity<String> handleUrlExpired(
+            UrlExpiredException ex) {
+
+        return ResponseEntity
+                .status(HttpStatus.GONE)
+                .body(ex.getMessage());
+    }
 }
