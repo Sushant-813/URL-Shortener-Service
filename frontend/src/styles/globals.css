@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+:root {
+  --color-canvas: #010102;
+  --color-surface-1: #0f1011;
+  --color-surface-2: #141516;
+  --color-border-hairline: #23252a;
+  --color-text-primary: #f7f8f8;
+  --color-text-secondary: #d0d6e0;
+  --color-text-muted: #8a8f98;
+  --color-brand-primary: #5e6ad2;
+  --color-brand-hover: #828fff;
+  --color-brand-focus: #5e69d1;
+  --color-danger: #e5484d;
+  --color-success: #27a644;
+}
+
 html,
 body,
 #root {
@@ -8,4 +23,7 @@ body,
 
 body {
   margin: 0;
+  background: var(--color-canvas);
+  color: var(--color-text-primary);
+  font-family: Geist, Inter, system-ui, sans-serif;
 }

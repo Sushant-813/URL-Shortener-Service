@@ -1,13 +1,12 @@
-function Card({ children, className = "" }) {
+function Card({ children, className = "", ...props }) {
   return (
     <div
       className={`
-        bg-white
-        rounded-xl
-        shadow-md
-        p-6
+        rounded-lg border border-[var(--color-border-hairline)]
+        bg-[var(--color-surface-1)] p-6 text-[var(--color-text-primary)]
         ${className}
       `}
+      {...props}
     >
       {children}
     </div>

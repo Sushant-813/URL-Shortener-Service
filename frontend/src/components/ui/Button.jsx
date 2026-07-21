@@ -4,6 +4,7 @@ function Button({
   onClick,
   className = "",
   disabled = false,
+  ...props
 }) {
   return (
     <button
@@ -11,17 +12,15 @@ function Button({
       onClick={onClick}
       disabled={disabled}
       className={`
-        px-4 py-2
-        rounded-lg
-        font-medium
-        bg-blue-600
-        text-white
-        hover:bg-blue-700
-        transition
+        min-h-11 rounded-md bg-[var(--color-brand-primary)] px-4 py-2
+        text-sm font-medium text-white transition-colors
+        hover:bg-[var(--color-brand-hover)] focus:outline-none
+        focus:ring-2 focus:ring-[var(--color-brand-focus)] focus:ring-offset-2
+        focus:ring-offset-[var(--color-surface-1)] disabled:cursor-not-allowed
         disabled:opacity-50
-        disabled:cursor-not-allowed
         ${className}
       `}
+      {...props}
     >
       {children}
     </button>
