@@ -9,7 +9,7 @@ import authService from "../../services/authService";
 const REGISTRATION_FIELDS = ["username", "email", "password"];
 
 function getRegistrationErrorMessage(error) {
-  const { status, data } = error.response ?? {};
+  const { status, data } = error?.response ?? {};
 
   if (status === 409 && typeof data === "string" && data.trim()) {
     return data;
@@ -53,7 +53,7 @@ function Register() {
         },
       });
     } catch (error) {
-      const { status, data } = error.response ?? {};
+      const { status, data } = error?.response ?? {};
 
       if (status === 400 && data && typeof data === "object") {
         const fieldErrors = Object.entries(data).filter(([field]) =>

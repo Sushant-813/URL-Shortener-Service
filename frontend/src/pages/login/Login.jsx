@@ -8,7 +8,7 @@ import useAuth from "../../hooks/useAuth";
 import authService from "../../services/authService";
 
 function getLoginErrorMessage(error) {
-  const { status, data } = error.response ?? {};
+  const { status, data } = error?.response ?? {};
 
   if (status === 401 || status === 403) {
     return "Incorrect username or password. Please try again.";
@@ -21,10 +21,28 @@ function getLoginErrorMessage(error) {
   return "Unable to sign in. Please check your connection and try again.";
 }
 
+function getPostLoginDestination(from) {
+  if (
+    !from ||
+    typeof from.pathname !== "string" ||
+    !from.pathname.startsWith("/") ||
+    from.pathname.startsWith("//")
+  ) {
+    return "/dashboard";
+  }
+
+  const search = typeof from.search === "string" ? from.search : "";
+  const hash = typeof from.hash === "string" ? from.hash : "";
+
+  return `${from.pathname}${search}${hash}`;
+}
+
 function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
+  const successMessage =
+    typeof location.state?.message === "string" ? location.state.message : null;
   const {
     register: registerField,
     handleSubmit,
@@ -48,8 +66,15 @@ function Login() {
         throw new Error("The server did not return an authentication token.");
       }
 
-      login(response.token);
-      navigate("/dashboard", { replace: true });
+      if (!login(response.token)) {
+        setError("root", {
+          type: "server",
+          message: "Unable to verify your authentication session. Please try again.",
+        });
+        return;
+      }
+
+      navigate(getPostLoginDestination(location.state?.from), { replace: true });
     } catch (error) {
       setError("root", {
         type: "server",
@@ -79,12 +104,12 @@ function Login() {
           </p>
         </div>
 
-        {location.state?.message && (
+        {successMessage && (
           <p
             className="mt-6 rounded-md border border-[var(--color-success)] bg-[var(--color-surface-2)] px-3 py-2 text-sm text-[var(--color-text-secondary)]"
             role="status"
           >
-            {location.state.message}
+            {successMessage}
           </p>
         )}
 

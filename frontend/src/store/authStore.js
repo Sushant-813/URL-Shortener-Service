@@ -75,10 +75,11 @@ const useAuthStore = create((set) => ({
     if (!sessionState || !storeToken(sessionState.token)) {
       removeStoredToken();
       set(EMPTY_AUTH_STATE);
-      return;
+      return false;
     }
 
     set(sessionState);
+    return true;
   },
 
   logout: () => {
