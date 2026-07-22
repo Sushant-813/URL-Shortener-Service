@@ -1,8 +1,9 @@
-import { Routes, Route } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import PublicLayout from "../components/layout/PublicLayout";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import ProtectedRoute from "../components/ProtectedRoute";
+import PublicRoute from "../components/PublicRoute";
 
 import Login from "../pages/login/Login";
 import Register from "../pages/register/Register";
@@ -14,70 +15,54 @@ import NotFound from "../pages/errors/NotFound";
 function AppRoutes() {
   return (
     <Routes>
-      {/* Default Route */}
-      <Route
-        path="/"
-        element={
-          <PublicLayout>
-            <Login />
-          </PublicLayout>
-        }
-      />
+      <Route path="/" element={<Navigate to="/login" replace />} />
 
-      {/* Public Routes */}
-      <Route
-        path="/login"
-        element={
-          <PublicLayout>
-            <Login />
-          </PublicLayout>
-        }
-      />
+      <Route element={<PublicRoute />}>
+        <Route
+          path="/login"
+          element={
+            <PublicLayout>
+              <Login />
+            </PublicLayout>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicLayout>
+              <Register />
+            </PublicLayout>
+          }
+        />
+      </Route>
 
-      <Route
-        path="/register"
-        element={
-          <PublicLayout>
-            <Register />
-          </PublicLayout>
-        }
-      />
-
-      {/* Protected Routes */}
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
+      <Route element={<ProtectedRoute />}>
+        <Route
+          path="/dashboard"
+          element={
             <DashboardLayout>
               <Dashboard />
             </DashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/myurls"
-        element={
-          <ProtectedRoute>
+          }
+        />
+        <Route
+          path="/myurls"
+          element={
             <DashboardLayout>
               <MyUrls />
             </DashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/analytics"
-        element={
-          <ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
             <DashboardLayout>
               <Analytics />
             </DashboardLayout>
-          </ProtectedRoute>
-        }
-      />
+          }
+        />
+      </Route>
 
-      {/* 404 */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
