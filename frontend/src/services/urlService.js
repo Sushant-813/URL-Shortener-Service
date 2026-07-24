@@ -59,9 +59,30 @@ async function getDashboardStats() {
   return { totalUrls, activeUrls, totalClicks, unavailableUrls };
 }
 
+// Create a new short URL for the authenticated user.
+//
+// originalUrl    – required, the long URL to shorten
+// expirationDate – optional JS Date; null means no expiration.
+//
+// The backend expects `expirationDate` as an ISO-8601 LocalDateTime string
+// (e.g. "2026-12-31T23:59:59"). If null, the field is omitted entirely so
+// the backend treats it as "no expiration".
+async function createShortUrl(originalUrl, expirationDate = null) {
+  const body = { originalUrl };
+
+  if (expirationDate instanceof Date) {
+    // Drop milliseconds — backend LocalDateTime doesn't use them.
+    body.expirationDate = expirationDate.toISOString().replace(/\.\d{3}Z$/, "");
+  }
+
+  const response = await apiClient.post("/api/urls/shorten", body);
+  return response.data;
+}
+
 const urlService = {
   getRecentUrls,
   getDashboardStats,
+  createShortUrl,
 };
 
 export default urlService;
