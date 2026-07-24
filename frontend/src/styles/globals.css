@@ -4,6 +4,7 @@
   --color-canvas: #010102;
   --color-surface-1: #0f1011;
   --color-surface-2: #141516;
+  --color-surface-3: #18191a;
   --color-border-hairline: #23252a;
   --color-text-primary: #f7f8f8;
   --color-text-secondary: #d0d6e0;
@@ -13,6 +14,9 @@
   --color-brand-focus: #5e69d1;
   --color-danger: #e5484d;
   --color-success: #27a644;
+  --color-overlay: rgb(1 1 2 / 72%);
+  --sidebar-width: 260px;
+  --dashboard-content-width: 1280px;
 }
 
 html,
