@@ -471,15 +471,21 @@ Phase Q – URL Actions
 
 Status
 
-⬜ Pending
+✅ Completed (26-07-2026)
 
 Features
 
-• Activate
-• Deactivate
-• Soft Delete
-• Confirmation Dialog
-• Optimistic Updates
+• Toggle URL active/inactive via PATCH /api/urls/{id}/toggle
+• Soft delete via DELETE /api/urls/{id}
+• Confirmation dialog before delete (reusable ConfirmDialog component)
+• Optimistic updates — immediate visual feedback before server confirmation
+• Server-truth synchronization — cache updated with returned DTO on success
+• Per-row loading state — only the affected row is disabled during mutation
+• Expired URL handling — no optimistic toggle for expired URLs (badge priority)
+• Error handling — rollback on failure, user-facing toast messages
+• Danger variant added to Button component
+• Actions column added to URL table (header, skeleton, empty states updated)
+• useUrlActions hook encapsulates all mutation and dialog state logic
 
 ------------------------------------------------------------
 Phase R – Analytics Dashboard

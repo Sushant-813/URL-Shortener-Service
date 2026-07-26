@@ -8,6 +8,10 @@ const VARIANT_CLASSES = {
     hover:bg-[var(--color-surface-3)] focus:ring-[var(--color-brand-focus)]
     focus:ring-offset-[var(--color-surface-1)]
   `,
+  danger: `
+    bg-[var(--color-danger)] text-white hover:opacity-90
+    focus:ring-[var(--color-danger)] focus:ring-offset-[var(--color-surface-2)]
+  `,
 };
 
 function Button({

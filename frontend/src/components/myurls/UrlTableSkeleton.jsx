@@ -30,6 +30,8 @@ function UrlTableSkeleton() {
       <SkeletonCell widthClass="w-24 hidden lg:block" />
       {/* Status */}
       <SkeletonCell widthClass="w-16" />
+      {/* Actions */}
+      <SkeletonCell widthClass="w-16" />
     </tr>
   ));
 }

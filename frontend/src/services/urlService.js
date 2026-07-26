@@ -104,12 +104,31 @@ async function searchUrls(query) {
   return response.data;
 }
 
+// Toggle a URL's active/inactive status.
+//
+// PATCH /api/urls/{id}/toggle returns the updated UrlMappingDTO.
+// The backend flips the current `active` value regardless of expiration state.
+async function toggleUrlStatus(id) {
+  const response = await apiClient.patch(`/api/urls/${id}/toggle`);
+  return response.data;
+}
+
+// Soft-delete a URL by ID.
+//
+// DELETE /api/urls/{id} marks the record as deleted in the database.
+// Returns 204 No Content on success.
+async function deleteUrl(id) {
+  await apiClient.delete(`/api/urls/${id}`);
+}
+
 const urlService = {
   getRecentUrls,
   getDashboardStats,
   createShortUrl,
   getUserUrls,
   searchUrls,
+  toggleUrlStatus,
+  deleteUrl,
 };
 
 export default urlService;

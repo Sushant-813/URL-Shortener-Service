@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Copy, Check } from "lucide-react";
 
 import Badge from "../ui/Badge";
+import UrlActionButtons from "./UrlActionButtons";
 import formatDate from "../../utils/formatDate";
 import buildFullShortUrl from "../../utils/urlUtils";
 
@@ -18,12 +19,25 @@ function resolveStatus(active, expirationDate) {
 
 // Renders a single data row for one UrlMappingDTO.
 //
-// Props: the raw UrlMappingDTO fields.
-function UrlTableRow({ originalUrl, shortUrl, clickCount, active, expirationDate, createdDate }) {
+// Props: the raw UrlMappingDTO fields plus action callbacks from useUrlActions.
+function UrlTableRow({
+  id,
+  originalUrl,
+  shortUrl,
+  clickCount,
+  active,
+  expirationDate,
+  createdDate,
+  isToggling,
+  isDeleting,
+  onToggle,
+  onDelete,
+}) {
   const [copied, setCopied] = useState(false);
 
   const fullShortUrl = buildFullShortUrl(shortUrl);
   const status = resolveStatus(active, expirationDate);
+  const isExpired = status === "expired";
 
   async function handleCopy() {
     try {
@@ -100,8 +114,21 @@ function UrlTableRow({ originalUrl, shortUrl, clickCount, active, expirationDate
         <Badge status={status} />
       </td>
 
+      {/* Actions — always visible */}
+      <td className="px-2 py-1">
+        <UrlActionButtons
+          active={active}
+          isExpired={isExpired}
+          isToggling={isToggling}
+          isDeleting={isDeleting}
+          onToggle={onToggle}
+          onDelete={onDelete}
+        />
+      </td>
+
     </tr>
   );
 }
 
 export default UrlTableRow;
+

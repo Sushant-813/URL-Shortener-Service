@@ -10,7 +10,7 @@ function UrlEmptyState({ isSearchMode, searchQuery, onClearSearch }) {
   if (isSearchMode) {
     return (
       <tr>
-        <td colSpan={6}>
+        <td colSpan={7}>
           <div
             role="status"
             className="flex flex-col items-center py-16 text-center"
@@ -47,7 +47,7 @@ function UrlEmptyState({ isSearchMode, searchQuery, onClearSearch }) {
 
   return (
     <tr>
-      <td colSpan={6}>
+      <td colSpan={7}>
         <div
           role="status"
           className="flex flex-col items-center py-16 text-center"

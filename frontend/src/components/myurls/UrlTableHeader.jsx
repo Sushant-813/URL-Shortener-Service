@@ -17,7 +17,9 @@ const COLUMNS = [
   },
   { label: "Expires", sortKey: null, className: "hidden lg:table-cell" },
   { label: "Status", sortKey: null, className: "" },
+  { label: "Actions", sortKey: null, className: "w-24" },
 ];
+
 
 // A single sortable column header button.
 function SortableHeader({ label, sortKey, activeSortKey, direction, onSort }) {
