@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Card from "../ui/Card";
 import urlService from "../../services/urlService";
 import RecentUrlItem from "./RecentUrlItem";
+import formatDate from "../../utils/formatDate";
 
 // Map the backend UrlMappingDTO to the shape RecentUrlItem expects.
 //
@@ -34,20 +35,6 @@ function resolveStatus(active, expirationDate) {
   }
 
   return active ? "active" : "inactive";
-}
-
-// Format an ISO-8601 LocalDateTime string ("2026-07-20T14:30:00")
-// into a human-readable date ("Jul 20, 2026").
-function formatDate(isoString) {
-  if (!isoString) {
-    return "";
-  }
-
-  return new Date(isoString).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
 }
 
 // "View all" styled as a secondary button — semantic <Link> (anchor),

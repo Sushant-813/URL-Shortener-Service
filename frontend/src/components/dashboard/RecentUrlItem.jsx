@@ -1,34 +1,13 @@
-// Status badge configuration — uses only defined CSS custom properties.
-const STATUS_CONFIG = {
-  active: {
-    label: "Active",
-    className:
-      "border-[var(--color-success)] text-[var(--color-success)]",
-  },
-  inactive: {
-    label: "Inactive",
-    className:
-      "border-[var(--color-text-muted)] text-[var(--color-text-muted)]",
-  },
-  expired: {
-    label: "Expired",
-    className:
-      "border-[var(--color-danger)] text-[var(--color-danger)]",
-  },
-};
+import Badge from "../ui/Badge";
 
-function StatusBadge({ status }) {
-  const config = STATUS_CONFIG[status] ?? STATUS_CONFIG.inactive;
-
-  return (
-    <span
-      className={`inline-flex shrink-0 items-center rounded border px-2 py-0.5 text-xs font-medium ${config.className}`}
-    >
-      {config.label}
-    </span>
-  );
-}
-
+// Renders a single recent URL row inside the dashboard list.
+//
+// Props:
+//   originalUrl  – full long URL (truncated in display)
+//   shortUrl     – 8-char short code
+//   clickCount   – total visits
+//   status       – "active" | "inactive" | "expired"
+//   createdDate  – pre-formatted date string (e.g. "Jul 20, 2026")
 function RecentUrlItem({ originalUrl, shortUrl, clickCount, status, createdDate }) {
   return (
     <li className="py-4 first:pt-0 last:pb-0">
@@ -58,7 +37,7 @@ function RecentUrlItem({ originalUrl, shortUrl, clickCount, status, createdDate 
             {clickCount.toLocaleString()} clicks
           </span>
 
-          <StatusBadge status={status} />
+          <Badge status={status} />
 
           <span className="text-sm text-[var(--color-text-muted)]">
             {createdDate}

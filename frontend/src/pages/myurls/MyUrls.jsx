@@ -1,13 +1,19 @@
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import ShortenForm from "../../components/myurls/ShortenForm";
 import ShortenResult from "../../components/myurls/ShortenResult";
+import UrlTable from "../../components/myurls/UrlTable";
 
 function MyUrls() {
   const [result, setResult] = useState(null);
+  const queryClient = useQueryClient();
 
   function handleSuccess(dto) {
     setResult(dto);
+    // Invalidate all URL queries so the table refreshes immediately
+    // after a new short link is created.
+    queryClient.invalidateQueries({ queryKey: ["urls"] });
   }
 
   function handleClear() {
@@ -32,7 +38,7 @@ function MyUrls() {
         <ShortenResult dto={result} onClear={handleClear} />
       )}
 
-      {/* Phase P: URL table will be assembled here */}
+      <UrlTable className="mt-12" />
     </section>
   );
 }

@@ -3,27 +3,10 @@ import { Copy, Check, ExternalLink, RotateCcw } from "lucide-react";
 
 import Card from "../ui/Card";
 import Button from "../ui/Button";
+import buildFullShortUrl from "../../utils/urlUtils";
+import formatDate from "../../utils/formatDate";
 
 const COPY_FEEDBACK_MS = 2000;
-
-// Construct the full redirect URL from the base API URL and the short code.
-//
-// The backend `shortUrl` field is the 8-char code only (e.g. "HOpozTwU").
-// The redirect endpoint lives at {VITE_API_BASE_URL}/{shortCode}.
-function buildFullShortUrl(shortCode) {
-  const base = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
-  return `${base}/${shortCode}`;
-}
-
-// Format an ISO-8601 string to a readable date (e.g. "Jul 25, 2026").
-function formatDate(isoString) {
-  if (!isoString) return null;
-  return new Date(isoString).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
 
 // Post-creation result panel displayed after a URL is successfully shortened.
 //

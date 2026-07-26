@@ -79,10 +79,37 @@ async function createShortUrl(originalUrl, expirationDate = null) {
   return response.data;
 }
 
+// Fetch paginated, sorted user URLs.
+//
+// Returns the full Spring Page object:
+//   { content: UrlMappingDTO[], totalElements, totalPages, number, size }
+//
+// Accepted sortBy values (enforced by backend): createdDate, clickCount, originalUrl, shortUrl
+// Accepted direction values: asc, desc
+async function getUserUrls(page = 0, size = 10, sortBy = "createdDate", direction = "desc") {
+  const response = await apiClient.get("/api/urls/myurls", {
+    params: { page, size, sortBy, direction },
+  });
+  return response.data;
+}
+
+// Keyword search across originalUrl and shortUrl fields.
+//
+// Returns a flat UrlMappingDTO[] (not paginated — the backend returns List<UrlMappingDTO>).
+// Caller must not send an empty query — the backend returns 400 for empty strings.
+async function searchUrls(query) {
+  const response = await apiClient.get("/api/urls/search", {
+    params: { query },
+  });
+  return response.data;
+}
+
 const urlService = {
   getRecentUrls,
   getDashboardStats,
   createShortUrl,
+  getUserUrls,
+  searchUrls,
 };
 
 export default urlService;
