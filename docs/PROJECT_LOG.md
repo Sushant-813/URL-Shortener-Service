@@ -493,7 +493,7 @@ Phase R – Analytics Dashboard
 
 Status
 
-⬜ Pending
+✅ Completed (27-07-2026)
 
 Features
 
@@ -502,6 +502,64 @@ Features
 • Timeline
 • Date Filters
 • Skeleton Loading
+
+Features Added
+
+- Installed Recharts as the charting library
+- Created analyticsService.js with two API functions:
+  - getTotalClicks(startDate, endDate) → GET /api/urls/totalClicks
+  - getUrlAnalytics(shortUrl, startDate, endDate) → GET /api/urls/analytics/{shortUrl}
+  - Date format differences handled internally (yyyy-MM-dd vs yyyy-MM-ddTHH:mm:ss)
+- Created analyticsUtils.js with pure utility functions:
+  - toISODate() for local-time YYYY-MM-DD formatting
+  - generateDateRange() to produce a continuous date sequence
+  - buildTotalClicksChartData() to normalise sparse Map<LocalDate, Long> responses
+  - buildUrlClicksChartData() to normalise List<ClickEventDTO> responses
+  - computeSummaryStats() to derive total, peak day, and daily average
+- DateRangePicker component with Last 7 / 30 / 90 day preset buttons and custom date inputs
+- AnalyticsSummaryCards component with three stat cards (Total Clicks, Peak Day, Daily Average)
+  reusing the existing StatisticCard component
+- TotalClicksChart component — Recharts AreaChart with gradient fill showing aggregate
+  clicks across all URLs over the selected period
+- ChartSkeleton component — reusable animated pulse placeholder for chart loading states
+- UrlSelector component — dropdown populated from the user's URL list
+- UrlClicksChart component — Recharts BarChart with rounded bars for per-URL click breakdown
+- UrlAnalyticsPanel component — composes UrlSelector, selected-URL metadata strip
+  (Badge, short code, original URL, total click count), and UrlClicksChart
+- Analytics.jsx — replaced placeholder with full implementation using three React Query
+  queries (total clicks, URL list, per-URL analytics) and memoised derived data
+
+Features Verified
+
+- Build succeeds cleanly (2519 modules transformed, 0 errors)
+- Dev server starts and serves the application on localhost:5173
+- /analytics route renders the full analytics page within DashboardLayout
+- Default date range (Last 7 days) loads automatically on page open
+- Last 30 days and Last 90 days presets update the date range and refetch data
+- Custom date inputs allow arbitrary start and end date selection
+- Summary cards show Total Clicks, Peak Day, and Daily Average derived from fetched data
+- Skeleton cards render correctly during loading
+- Total clicks area chart renders with gradient fill and custom dark-theme tooltip
+- Empty state shown when no clicks exist in the selected range
+- URL selector dropdown populated with all user URLs
+- Selecting a URL shows its metadata strip (status badge, short code, original URL, click count)
+- Per-URL bar chart renders correctly for the selected URL and date range
+- Changing the date range while a URL is selected refetches URL analytics automatically
+- "Select a URL" prompt shown when no URL is chosen
+- "No clicks recorded" empty state shown for URLs with zero clicks in range
+- Skeleton chart shown while per-URL analytics query is loading
+- All loading and error states handled correctly in every component
+
+Concepts Applied
+
+- React Query useQuery with the select option to transform Spring Page responses
+- React Query enabled flag to conditionally run per-URL queries
+- useMemo for derived chart data to avoid redundant array allocations on each render
+- Sparse-to-dense data normalisation (filling zero clicks for missing days)
+- Recharts SVG attribute limitation: hex values used directly for axis and grid colours
+  since CSS custom properties are not resolved inside SVG attributes
+- Custom Recharts tooltip styled with Tailwind and CSS variables for design-system consistency
+- No custom hook created — React Query used directly in the page component per project decision
 
 ------------------------------------------------------------
 Phase S – UI Polish & Motion
