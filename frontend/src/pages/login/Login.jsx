@@ -91,16 +91,16 @@ function Login() {
       <Card className="w-full max-w-md">
         <div className="space-y-2">
           <p className="text-sm font-medium text-[var(--color-text-secondary)]">
-            URL Shortener
+            LinkFlow
           </p>
           <h1
             id="login-heading"
             className="text-2xl font-semibold tracking-[-0.02em]"
           >
-            Sign in to your workspace
+            Welcome back
           </h1>
           <p className="text-sm text-[var(--color-text-muted)]">
-            Manage and monitor your shortened links.
+            Shorten • Share • Track
           </p>
         </div>
 
@@ -177,7 +177,7 @@ function Login() {
         </form>
 
         <p className="mt-6 text-sm text-[var(--color-text-muted)]">
-          New to URL Shortener?{" "}
+          New to LinkFlow?{" "}
           <Link
             className="font-medium text-[var(--color-text-primary)] underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-focus)]"
             to="/register"

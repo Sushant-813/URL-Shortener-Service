@@ -16,24 +16,34 @@ function SkeletonCell({ widthClass = "w-full" }) {
 }
 
 function UrlTableSkeleton() {
-  return Array.from({ length: SKELETON_ROW_COUNT }, (_, i) => (
-    <tr key={i} className="border-b border-[var(--color-border-hairline)]">
-      {/* Original URL — widest */}
-      <SkeletonCell widthClass="w-3/4" />
-      {/* Short URL */}
-      <SkeletonCell widthClass="w-24" />
-      {/* Clicks */}
-      <SkeletonCell widthClass="w-12 hidden md:block" />
-      {/* Created */}
-      <SkeletonCell widthClass="w-24 hidden md:block" />
-      {/* Expires */}
-      <SkeletonCell widthClass="w-24 hidden lg:block" />
-      {/* Status */}
-      <SkeletonCell widthClass="w-16" />
-      {/* Actions */}
-      <SkeletonCell widthClass="w-16" />
-    </tr>
-  ));
+  return (
+    <>
+      {Array.from({ length: SKELETON_ROW_COUNT }, (_, i) => (
+        <tr
+          key={i}
+          role={i === 0 ? "status" : undefined}
+          aria-label={i === 0 ? "Loading URLs" : undefined}
+          aria-busy="true"
+          className="border-b border-[var(--color-border-hairline)]"
+        >
+          {/* Original URL — widest */}
+          <SkeletonCell widthClass="w-3/4" />
+          {/* Short URL */}
+          <SkeletonCell widthClass="w-24" />
+          {/* Clicks */}
+          <SkeletonCell widthClass="w-12 hidden md:block" />
+          {/* Created */}
+          <SkeletonCell widthClass="w-24 hidden md:block" />
+          {/* Expires */}
+          <SkeletonCell widthClass="w-24 hidden lg:block" />
+          {/* Status */}
+          <SkeletonCell widthClass="w-16" />
+          {/* Actions */}
+          <SkeletonCell widthClass="w-16" />
+        </tr>
+      ))}
+    </>
+  );
 }
 
 export default UrlTableSkeleton;

@@ -93,7 +93,7 @@ function Register() {
       <Card className="w-full max-w-md">
         <div className="space-y-2">
           <p className="text-sm font-medium text-[var(--color-text-secondary)]">
-            URL Shortener
+            LinkFlow
           </p>
           <h1
             id="register-heading"
@@ -102,7 +102,7 @@ function Register() {
             Create your account
           </h1>
           <p className="text-sm text-[var(--color-text-muted)]">
-            Start managing shortened links from one workspace.
+            Shorten • Share • Track
           </p>
         </div>
 

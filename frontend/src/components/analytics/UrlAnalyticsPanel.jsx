@@ -17,11 +17,13 @@ function SelectedUrlMeta({ url }) {
   const status = resolveStatus(url.active, url.expirationDate);
 
   return (
-    <div className="flex flex-wrap items-center gap-3 rounded-md border border-[var(--color-border-hairline)] bg-[var(--color-surface-2)] px-4 py-3">
-      <Badge status={status} />
-      <span className="font-mono text-sm text-[var(--color-brand-hover)]">
-        {url.shortUrl}
-      </span>
+    <div className="flex flex-col gap-2 rounded-md border border-[var(--color-border-hairline)] bg-[var(--color-surface-2)] px-4 py-3 sm:flex-row sm:items-center sm:gap-3">
+      <div className="flex shrink-0 items-center gap-3">
+        <Badge status={status} />
+        <span className="font-mono text-sm text-[var(--color-brand-hover)]">
+          {url.shortUrl}
+        </span>
+      </div>
       <span
         className="min-w-0 flex-1 truncate text-sm text-[var(--color-text-muted)]"
         title={url.originalUrl}

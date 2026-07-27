@@ -1,3 +1,4 @@
+import { Menu, X } from "lucide-react";
 import Button from "../ui/Button";
 import useAuth from "../../hooks/useAuth";
 
@@ -9,13 +10,18 @@ function Topbar({ title, isSidebarOpen, onMenuClick }) {
       <div className="flex min-w-0 items-center gap-3">
         <Button
           variant="secondary"
-          className="lg:hidden"
+          className="flex items-center gap-2 px-3 lg:hidden"
           onClick={onMenuClick}
           aria-label={isSidebarOpen ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={isSidebarOpen}
           aria-controls="mobile-sidebar"
         >
-          Menu
+          {isSidebarOpen ? (
+            <X size={16} aria-hidden="true" />
+          ) : (
+            <Menu size={16} aria-hidden="true" />
+          )}
+          <span className="text-sm font-medium">Menu</span>
         </Button>
         <h1 className="truncate text-xl font-semibold tracking-[-0.02em] text-[var(--color-text-primary)] sm:text-2xl">
           {title}

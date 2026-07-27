@@ -14,6 +14,7 @@ function useToast() {
     success: (message) => addToast(message, "success"),
     error: (message) => addToast(message, "error"),
     info: (message) => addToast(message, "info"),
+    warning: (message) => addToast(message, "warning"),
   };
 }
 

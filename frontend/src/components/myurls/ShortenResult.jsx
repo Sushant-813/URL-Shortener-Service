@@ -34,7 +34,7 @@ function ShortenResult({ dto, onClear }) {
   }
 
   return (
-    <Card className="mt-6">
+    <Card className="mt-6 motion-safe:animate-[fadeSlideUp_250ms_ease-out]">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
           <p className="text-xs font-medium uppercase tracking-widest text-[var(--color-text-muted)]">

@@ -16,7 +16,9 @@ function ToastContainer() {
 
   return createPortal(
     <div
+      role="region"
       aria-label="Notifications"
+      aria-live="polite"
       className="fixed right-4 top-4 z-50 flex flex-col gap-2"
     >
       {toasts.map((toast) => (

@@ -13,6 +13,7 @@ function UrlEmptyState({ isSearchMode, searchQuery, onClearSearch }) {
         <td colSpan={7}>
           <div
             role="status"
+            aria-live="polite"
             className="flex flex-col items-center py-16 text-center"
           >
             <SearchX
@@ -32,7 +33,7 @@ function UrlEmptyState({ isSearchMode, searchQuery, onClearSearch }) {
               className="
                 mt-6 min-h-11 rounded-md px-4 py-2 text-sm font-medium
                 bg-[var(--color-surface-2)] text-[var(--color-text-primary)]
-                transition-colors hover:bg-[var(--color-surface-3)]
+                transition-colors duration-150 hover:bg-[var(--color-surface-3)]
                 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-focus)]
                 focus:ring-offset-2 focus:ring-offset-[var(--color-canvas)]
               "
@@ -50,6 +51,7 @@ function UrlEmptyState({ isSearchMode, searchQuery, onClearSearch }) {
       <td colSpan={7}>
         <div
           role="status"
+          aria-live="polite"
           className="flex flex-col items-center py-16 text-center"
         >
           <Link2

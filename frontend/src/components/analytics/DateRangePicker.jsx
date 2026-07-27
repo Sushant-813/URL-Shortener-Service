@@ -34,7 +34,7 @@ function DateRangePicker({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-3">
       {/* Quick-select preset buttons */}
       <div className="flex flex-wrap gap-2">
         {PRESETS.map((preset) => (
@@ -42,6 +42,7 @@ function DateRangePicker({
             key={preset.label}
             variant="secondary"
             onClick={() => applyPreset(preset.days)}
+            className="text-xs sm:text-sm"
           >
             {preset.label}
           </Button>
@@ -70,7 +71,7 @@ function DateRangePicker({
           value={startDate}
           max={endDate}
           onChange={(e) => onStartDateChange(e.target.value)}
-          className="w-auto [color-scheme:dark]"
+          className="w-auto text-xs sm:text-sm [color-scheme:dark]"
         />
 
         <label
@@ -86,7 +87,7 @@ function DateRangePicker({
           min={startDate}
           max={todayStr}
           onChange={(e) => onEndDateChange(e.target.value)}
-          className="w-auto [color-scheme:dark]"
+          className="w-auto text-xs sm:text-sm [color-scheme:dark]"
         />
       </div>
     </div>

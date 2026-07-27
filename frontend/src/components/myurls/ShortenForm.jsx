@@ -180,7 +180,7 @@ function ShortenForm({ onSuccess }) {
           type="submit"
           disabled={isPending}
           aria-busy={isPending}
-          className="min-w-32"
+          className="w-full sm:w-auto min-w-32"
         >
           {isPending ? "Creating…" : "Create short URL"}
         </Button>

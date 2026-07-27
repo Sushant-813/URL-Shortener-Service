@@ -1,10 +1,11 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import PublicLayout from "../components/layout/PublicLayout";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import ProtectedRoute from "../components/ProtectedRoute";
 import PublicRoute from "../components/PublicRoute";
 
+import Landing from "../pages/landing/Landing";
 import Login from "../pages/login/Login";
 import Register from "../pages/register/Register";
 import Dashboard from "../pages/dashboard/Dashboard";
@@ -15,9 +16,15 @@ import NotFound from "../pages/errors/NotFound";
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
-
       <Route element={<PublicRoute />}>
+        <Route
+          path="/"
+          element={
+            <PublicLayout>
+              <Landing />
+            </PublicLayout>
+          }
+        />
         <Route
           path="/login"
           element={

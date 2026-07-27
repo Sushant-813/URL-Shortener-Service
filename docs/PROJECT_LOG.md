@@ -562,20 +562,78 @@ Concepts Applied
 - No custom hook created — React Query used directly in the page component per project decision
 
 ------------------------------------------------------------
-Phase S – UI Polish & Motion
+Phase S – UI Polish, Motion & Product Landing Page
 ------------------------------------------------------------
 
 Status
 
-⬜ Pending
+✅ Completed (28-07-2026)
 
 Features
 
+• Product Rebrand (LinkFlow)
 • Micro Animations
 • Skeleton Loaders
-• Accessibility
-• Responsive Improvements
-• Toast Notifications
+• Toast Notification System Enhancements
+• Accessibility & Keyboard Navigation
+• Responsive Refinements
+• Public SaaS Landing Page
+
+Features Added
+
+- Product Rebranding to LinkFlow:
+  - Updated application name to "LinkFlow" and tagline to "Shorten • Share • Track" across all UI surfaces
+  - Updated document title (`index.html`), Login page, Register page, Sidebar badge ("LF"), Topbar, Navbar, and DashboardLayout
+- Toast Notification System Improvements:
+  - Added `warning` toast variant with `AlertTriangle` icon and `--color-warning` accent styling
+  - Added `toast.warning()` helper to `useToast` hook
+  - Added animated progress bar (`progressShrink`) shrinking from 100% to 0% over the 4000ms toast lifetime
+  - Added 200ms `toastOut` slide-right exit animation triggered at 3800ms or immediately on manual dismiss
+  - Enhanced accessibility landmarks with `role="region"`, `aria-label="Notifications"`, and `aria-live="polite"` on `ToastContainer`
+- Dashboard Skeleton Loaders:
+  - Created `StatisticsGridSkeleton.jsx` rendering 4 animated pulse stat cards for `StatisticsGrid` loading state
+  - Created `RecentUrlsSkeleton.jsx` rendering animated pulse list items for `RecentUrls` loading state
+  - Added `isLoading` state management and `aria-busy` attributes to dashboard sections
+- Micro-Animations & Design System Timing Scale:
+  - Established unified timing scale: 150ms hover transitions, 200ms dialogs/toasts, 250–300ms entry animations
+  - Added `fadeSlideUp` entry animation (300ms) with staggered delays (`index * 60ms`) to `StatisticCard` (mount-only execution)
+  - Added `fadeSlideUp` entry animation (250ms) to `ShortenResult` post-creation card
+  - Added subtle 2px hover lift (`-translate-y-0.5`, 150ms) to `QuickActionCard`
+  - Added optional `hoverable` prop to `Card` component for subtle border transitions (`--color-border-strong`)
+  - Added hover background transitions (150ms) to `RecentUrlItem` and `UrlTableRow`
+- Accessibility & Keyboard Navigation:
+  - Added visually hidden, focus-visible "Skip to main content" links in `DashboardLayout` and `PublicLayout` targeting `<main id="main-content" tabIndex={-1}>`
+  - Upgraded mobile menu toggle buttons in `Topbar` and `Navbar` with `Menu` and `X` Lucide icons
+  - Added simple focus management to mobile `Sidebar` (automatically focusing the brand link when opened)
+  - Added `role="status"`, `aria-label`, and `aria-busy` to `UrlTableSkeleton`
+  - Added `aria-live="polite"` to `UrlEmptyState` status containers
+- Responsive Layout Refinements:
+  - Updated submit button in `ShortenForm` to expand full-width on mobile (`w-full sm:w-auto`)
+  - Improved `DateRangePicker` flex layout for small screens (`flex-col sm:flex-row`)
+  - Enhanced `SelectedUrlMeta` in `UrlAnalyticsPanel` to stack cleanly on mobile viewports
+- Public SaaS Landing Page:
+  - Created modular landing page components: `Landing.jsx`, `LandingHero.jsx`, `LandingSectionHeader.jsx`, `FeaturesSection.jsx`, `HowItWorksSection.jsx`, `DashboardPreview.jsx`, `TechStackSection.jsx`, `LandingFooter.jsx`
+  - Updated `Navbar.jsx` with smooth section scrolling (`#features`, `#tech-stack`), LinkFlow logo, and Sign In / Get Started CTAs
+  - Built purely static visual dashboard preview reusing existing `Card`, `StatisticCard`, and `Badge` components without API calls or state stores
+  - Updated `AppRoutes.jsx` to serve `Landing` page at route `/` for unauthenticated visitors
+
+Features Verified
+
+- Production build succeeds cleanly (`npm run build`, 2529 modules transformed, 0 errors)
+- All landing page sections (`Hero`, `Features`, `How It Works`, `Dashboard Preview`, `Tech Stack`, `Footer`) render accurately
+- Navigation link smooth scrolling to `#features` and `#tech-stack` works smoothly
+- Skeletons render during dashboard loading with clean transition to populated data
+- Toasts render with progress bars and slide out smoothly on dismiss
+- Skip-to-main-content link functions via keyboard `Tab` navigation
+- Mobile layout responsiveness verified across 375px, 768px, 1024px, and 1440px viewports
+- Zero backend API calls or state mutations performed on the landing page
+
+Concepts Applied
+
+- Purely presentational static component composition reusing existing design primitives (`Card`, `StatisticCard`, `Badge`, `Button`)
+- Mount-only CSS keyframe entry animations avoiding unwanted re-triggers on data refetches
+- Standardized CSS custom property design tokens (`--color-warning`, `--color-border-strong`)
+- WCAG 2.1 Level A compliance (landmark regions, skip links, semantic HTML, focus management, reduced motion support)
 
 ------------------------------------------------------------
 Phase T – Final QA & Deployment
@@ -596,4 +654,5 @@ Tasks
 • Documentation Review
 • README Update
 • Deployment
+
 

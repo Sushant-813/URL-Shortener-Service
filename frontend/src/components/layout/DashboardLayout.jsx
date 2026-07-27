@@ -17,7 +17,7 @@ function DashboardLayout({ children }) {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
-  const pageTitle = PAGE_TITLES[location.pathname] ?? "URL Shortener";
+  const pageTitle = PAGE_TITLES[location.pathname] ?? "LinkFlow";
 
   useEffect(() => {
     function handleKeyDown(event) {
@@ -39,6 +39,18 @@ function DashboardLayout({ children }) {
 
   return (
     <div className="min-h-screen bg-[var(--color-canvas)] lg:flex">
+      {/* Skip to main content link for keyboard / screen-reader accessibility */}
+      <a
+        href="#main-content"
+        className="
+          sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50
+          rounded-md bg-[var(--color-brand-primary)] px-4 py-2 text-sm font-medium text-white
+          shadow-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-focus)]
+        "
+      >
+        Skip to main content
+      </a>
+
       <Sidebar
         isOpen={isSidebarOpen}
         onNavigate={() => setIsSidebarOpen(false)}
@@ -60,7 +72,11 @@ function DashboardLayout({ children }) {
           isSidebarOpen={isSidebarOpen}
           onMenuClick={() => setIsSidebarOpen((isOpen) => !isOpen)}
         />
-        <main className="mx-auto w-full max-w-[var(--dashboard-content-width)] p-4 sm:p-6 lg:p-8">
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className="mx-auto w-full max-w-[var(--dashboard-content-width)] p-4 outline-none sm:p-6 lg:p-8"
+        >
           {children}
         </main>
       </div>

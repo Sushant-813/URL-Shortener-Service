@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import urlService from "../../services/urlService";
 import StatisticCard from "./StatisticCard";
+import StatisticsGridSkeleton from "./StatisticsGridSkeleton";
 
 // Stat definitions — titles and descriptions are fixed UI copy.
 // Values are replaced by live data once the fetch resolves.
@@ -38,15 +39,23 @@ const EMPTY_STATS = {
 
 function StatisticsGrid() {
   const [stats, setStats] = useState(EMPTY_STATS);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
 
-    urlService.getDashboardStats().then((data) => {
-      if (!cancelled) {
-        setStats(data);
-      }
-    });
+    urlService
+      .getDashboardStats()
+      .then((data) => {
+        if (!cancelled) {
+          setStats(data);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      });
 
     return () => {
       cancelled = true;
@@ -60,15 +69,23 @@ function StatisticsGrid() {
   }));
 
   return (
-    <section className="mt-12" aria-labelledby="statistics-heading">
+    <section
+      className="mt-12"
+      aria-labelledby="statistics-heading"
+      aria-busy={isLoading}
+    >
       <h2 id="statistics-heading" className="sr-only">
         Link statistics
       </h2>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-        {statistics.map((statistic) => (
-          <StatisticCard key={statistic.title} {...statistic} />
-        ))}
-      </div>
+      {isLoading ? (
+        <StatisticsGridSkeleton />
+      ) : (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+          {statistics.map((statistic, index) => (
+            <StatisticCard key={statistic.title} index={index} {...statistic} />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

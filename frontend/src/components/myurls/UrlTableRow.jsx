@@ -50,7 +50,7 @@ function UrlTableRow({
   }
 
   return (
-    <tr className="border-b border-[var(--color-border-hairline)] transition-colors hover:bg-[var(--color-surface-2)]">
+    <tr className="border-b border-[var(--color-border-hairline)] transition-colors duration-150 hover:bg-[var(--color-surface-2)]">
 
       {/* Original URL — always visible, truncated */}
       <td className="max-w-[240px] px-4 py-3">
@@ -70,19 +70,20 @@ function UrlTableRow({
           aria-label={copied ? "Copied to clipboard" : `Copy ${fullShortUrl} to clipboard`}
           className="
             group inline-flex items-center gap-1.5 rounded font-mono
-            text-sm text-[var(--color-brand-hover)]
+            text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-brand-hover)]
             focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-focus)]
             focus:ring-offset-1 focus:ring-offset-[var(--color-canvas)]
+            transition-colors duration-150
           "
         >
-          <span>{shortUrl}</span>
+          <span className="transition-colors duration-150 group-hover:text-[var(--color-brand-hover)]">{shortUrl}</span>
           {copied ? (
             <Check size={12} aria-hidden="true" className="text-[var(--color-success)]" />
           ) : (
             <Copy
               size={12}
               aria-hidden="true"
-              className="opacity-0 transition-opacity group-hover:opacity-100"
+              className="opacity-0 transition-opacity duration-150 group-hover:opacity-100"
             />
           )}
         </button>

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Card from "../ui/Card";
 import urlService from "../../services/urlService";
 import RecentUrlItem from "./RecentUrlItem";
+import RecentUrlsSkeleton from "./RecentUrlsSkeleton";
 import formatDate from "../../utils/formatDate";
 
 // Map the backend UrlMappingDTO to the shape RecentUrlItem expects.
@@ -44,7 +45,7 @@ const VIEW_ALL_CLASSES = `
   inline-flex min-h-11 items-center rounded-md
   bg-[var(--color-surface-2)] px-4 py-2
   text-sm font-medium text-[var(--color-text-primary)]
-  transition-colors hover:bg-[var(--color-surface-3)]
+  transition-colors duration-150 hover:bg-[var(--color-surface-3)]
   focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-focus)]
   focus:ring-offset-2 focus:ring-offset-[var(--color-canvas)]
   motion-reduce:transition-none
@@ -56,7 +57,7 @@ const CREATE_URL_CLASSES = `
   inline-flex min-h-11 items-center rounded-md
   bg-[var(--color-brand-primary)] px-4 py-2
   text-sm font-medium text-white
-  transition-colors hover:bg-[var(--color-brand-hover)]
+  transition-colors duration-150 hover:bg-[var(--color-brand-hover)]
   focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-focus)]
   focus:ring-offset-2 focus:ring-offset-[var(--color-canvas)]
   motion-reduce:transition-none
@@ -64,15 +65,23 @@ const CREATE_URL_CLASSES = `
 
 function RecentUrls() {
   const [urls, setUrls] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
 
-    urlService.getRecentUrls().then((items) => {
-      if (!cancelled) {
-        setUrls(items.map(mapUrlToItem));
-      }
-    });
+    urlService
+      .getRecentUrls()
+      .then((items) => {
+        if (!cancelled) {
+          setUrls(items.map(mapUrlToItem));
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      });
 
     return () => {
       cancelled = true;
@@ -80,7 +89,7 @@ function RecentUrls() {
   }, []);
 
   return (
-    <section className="mt-12" aria-labelledby="recent-urls-heading">
+    <section className="mt-12" aria-labelledby="recent-urls-heading" aria-busy={isLoading}>
 
       {/* Section header — always visible, regardless of list state */}
       <div className="flex items-center justify-between gap-4">
@@ -96,7 +105,9 @@ function RecentUrls() {
       </div>
 
       <Card className="mt-6">
-        {urls.length > 0 ? (
+        {isLoading ? (
+          <RecentUrlsSkeleton />
+        ) : urls.length > 0 ? (
           // Populated state — URL list with hairline dividers between items.
           <ul
             className="divide-y divide-[var(--color-border-hairline)]"

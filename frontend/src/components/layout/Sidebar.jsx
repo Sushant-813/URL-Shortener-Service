@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 
 import Button from "../ui/Button";
@@ -9,6 +10,15 @@ const NAVIGATION_ITEMS = [
 ];
 
 function Sidebar({ isOpen, onNavigate, onLogout }) {
+  const brandLinkRef = useRef(null);
+
+  // Simple focus management: focus the top brand link when mobile drawer opens.
+  useEffect(() => {
+    if (isOpen) {
+      brandLinkRef.current?.focus();
+    }
+  }, [isOpen]);
+
   return (
     <aside
       id="mobile-sidebar"
@@ -24,6 +34,7 @@ function Sidebar({ isOpen, onNavigate, onLogout }) {
       aria-label="Primary navigation"
     >
       <NavLink
+        ref={brandLinkRef}
         className="flex min-h-11 items-center gap-3 rounded-md px-3 py-2 text-sm font-semibold text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-focus)]"
         to="/dashboard"
         onClick={onNavigate}
@@ -32,9 +43,9 @@ function Sidebar({ isOpen, onNavigate, onLogout }) {
           className="flex h-8 w-8 items-center justify-center rounded-md bg-[var(--color-brand-primary)] text-xs font-bold text-white"
           aria-hidden="true"
         >
-          US
+          LF
         </span>
-        <span>URL Shortener</span>
+        <span>LinkFlow</span>
       </NavLink>
 
       <nav className="mt-8" aria-label="Workspace">

@@ -10,14 +10,14 @@ import Badge from "../ui/Badge";
 //   createdDate  – pre-formatted date string (e.g. "Jul 20, 2026")
 function RecentUrlItem({ originalUrl, shortUrl, clickCount, status, createdDate }) {
   return (
-    <li className="py-4 first:pt-0 last:pb-0">
+    <li className="py-2 first:pt-0 last:pb-0">
       {/*
         Desktop (md+): single flex row.
           - Original URL expands to fill available space and truncates.
           - Secondary info stays fixed on the right.
         Mobile: stacked column.
       */}
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
+      <div className="-mx-2 flex flex-col gap-3 rounded-md px-2 py-2 transition-colors duration-150 hover:bg-[var(--color-surface-2)] md:flex-row md:items-center md:gap-6">
 
         {/* Primary — original URL */}
         <p
