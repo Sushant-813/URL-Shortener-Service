@@ -700,3 +700,130 @@ Completion Summary
 
 ------------------------------------------------------------
 
+========================================================================================================================
+Phase U – Production Deployment
+========================================================================================================================
+
+Objective
+---------
+Deploy LinkFlow to a public cloud environment, making the application accessible through a live URL while following production best practices.
+
+Goals
+-----
+- Deploy the Spring Boot backend.
+- Provision and configure a managed MySQL database.
+- Deploy the React frontend.
+- Configure production environment variables.
+- Configure CORS for production domains.
+- Verify all application functionality in the deployed environment.
+- Publish the live application URL.
+- Update project documentation with deployment instructions.
+
+Tasks
+-----
+
+Backend Deployment
+- Select cloud hosting platform.
+- Deploy Spring Boot application.
+- Configure production environment variables.
+- Verify health and API endpoints.
+- Configure logging for production.
+
+Database
+- Provision managed MySQL database.
+- Configure database credentials.
+- Verify connectivity.
+- Apply schema through JPA/Hibernate.
+- Validate production persistence.
+
+Frontend Deployment
+- Deploy React application.
+- Configure production API endpoint.
+- Verify routing.
+- Verify responsive UI.
+
+Environment Configuration
+- Configure:
+  - DB_URL
+  - DB_USERNAME
+  - DB_PASSWORD
+  - JWT_SECRET
+  - JWT_EXPIRATION_MS
+  - CORS_ALLOWED_ORIGINS
+  - APP_LOG_LEVEL
+  - SPRING_SECURITY_LOG_LEVEL
+  - JPA_DDL_AUTO
+
+Production Verification
+- User Registration
+- Login
+- Session Restoration
+- URL Shortening
+- Redirect Functionality
+- URL Expiration
+- Search
+- Sorting
+- Pagination
+- URL Activation
+- URL Deactivation
+- Soft Delete
+- Analytics Dashboard
+- Charts
+- Logout
+
+Documentation
+- Add Live Demo URL.
+- Update README deployment section.
+- Document production environment variables.
+- Document deployment architecture.
+- Document hosting providers used.
+
+Security Verification
+- Verify HTTPS access.
+- Verify JWT authentication.
+- Verify CORS configuration.
+- Verify environment variables are securely configured.
+- Confirm no secrets exposed in production.
+
+Success Criteria
+----------------
+- Backend publicly accessible.
+- Frontend publicly accessible.
+- Database connected.
+- HTTPS enabled.
+- All production flows working.
+- README updated.
+- Live demo published.
+
+Deliverables
+------------
+- Public frontend URL.
+- Public backend API.
+- Managed production database.
+- Updated README.
+- Deployment documentation.
+- Stable production deployment.
+
+Completion Checklist
+--------------------
+☐ Backend deployed
+
+☐ Frontend deployed
+
+☐ Database configured
+
+☐ Environment variables configured
+
+☐ HTTPS verified
+
+☐ CORS configured
+
+☐ End-to-end production testing completed
+
+☐ Documentation updated
+
+☐ Live demo published
+
+Release Outcome
+---------------
+Upon completion of Phase U, LinkFlow transitions from a versioned source-code release (v1.0.0) to a publicly accessible, fully deployed full-stack application suitable for portfolio presentation, demonstrations, and real-world usage.
