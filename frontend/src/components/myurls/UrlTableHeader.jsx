@@ -31,7 +31,6 @@ function SortableHeader({ label, sortKey, activeSortKey, direction, onSort }) {
       : ChevronDown
     : ChevronsUpDown;
 
-  const ariaSort = isActive ? (direction === "asc" ? "ascending" : "descending") : "none";
   const ariaLabel = `Sort by ${label} ${isActive && direction === "asc" ? "descending" : "ascending"}`;
 
   return (

@@ -10,9 +10,9 @@
     </parent>
     <groupId>com.url</groupId>
     <artifactId>url-shortener-sb</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name/>
-    <description/>
+    <version>1.0.0</version>
+    <name>LinkFlow</name>
+    <description>URL shortening and analytics platform</description>
     <url/>
     <licenses>
         <license/>

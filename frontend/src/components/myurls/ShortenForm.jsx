@@ -12,7 +12,10 @@ import urlService from "../../services/urlService";
 function getMinDatetimeLocal() {
   const d = new Date(Date.now() + 60_000);
   // datetime-local expects "YYYY-MM-DDTHH:MM"
-  return d.toISOString().slice(0, 16);
+  const pad = (value) => String(value).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(
+    d.getHours(),
+  )}:${pad(d.getMinutes())}`;
 }
 
 // Parse the "datetime-local" string from the input into a JS Date.

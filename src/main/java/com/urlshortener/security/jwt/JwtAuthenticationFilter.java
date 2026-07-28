@@ -28,10 +28,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
         try {
-            //Get JWT From Header
-            //Validate Token
-            //If Valid Get User Details
-            //-- get user name -> load User -> Set the auth context
             String jwt = jwtTokenProvider.getJwtFromHeader(request);
             if(jwt != null && jwtTokenProvider.validateToken(jwt)){
                 String username = jwtTokenProvider.getUserNameFromJwtToken(jwt);
@@ -43,8 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
 
-        }catch(Exception e){
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         filterChain.doFilter(request,response);
     }

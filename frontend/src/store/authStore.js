@@ -15,6 +15,30 @@ const EMPTY_AUTH_STATE = {
   isAuthenticated: false,
 };
 
+let expirationTimerId = null;
+
+function clearExpirationTimer() {
+  if (expirationTimerId !== null) {
+    window.clearTimeout(expirationTimerId);
+    expirationTimerId = null;
+  }
+}
+
+function scheduleSessionExpiration(token) {
+  const payload = decodeJwt(token);
+  const expiresAt = payload?.exp * 1000;
+
+  clearExpirationTimer();
+
+  if (!Number.isFinite(expiresAt)) {
+    return;
+  }
+
+  expirationTimerId = window.setTimeout(() => {
+    useAuthStore.getState().logout();
+  }, Math.max(0, expiresAt - Date.now()));
+}
+
 function getSessionState(token) {
   if (typeof token !== "string" || !token.trim()) {
     return null;
@@ -73,16 +97,19 @@ const useAuthStore = create((set) => ({
     const sessionState = getSessionState(token);
 
     if (!sessionState || !storeToken(sessionState.token)) {
+      clearExpirationTimer();
       removeStoredToken();
       set(EMPTY_AUTH_STATE);
       return false;
     }
 
     set(sessionState);
+    scheduleSessionExpiration(sessionState.token);
     return true;
   },
 
   logout: () => {
+    clearExpirationTimer();
     removeStoredToken();
     set(EMPTY_AUTH_STATE);
   },
@@ -91,12 +118,14 @@ const useAuthStore = create((set) => ({
     const sessionState = getSessionState(getStoredToken());
 
     if (!sessionState) {
+      clearExpirationTimer();
       removeStoredToken();
       set(EMPTY_AUTH_STATE);
       return;
     }
 
     set(sessionState);
+    scheduleSessionExpiration(sessionState.token);
   },
 }));
 

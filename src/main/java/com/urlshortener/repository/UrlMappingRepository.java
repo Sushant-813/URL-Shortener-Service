@@ -11,11 +11,11 @@ import java.util.Optional;
 @Repository
 public interface UrlMappingRepository extends JpaRepository<UrlMapping, Long> {
     UrlMapping findByShortUrlAndDeletedFalse(String shortUrl);
-    List<UrlMapping> findByUser(User user);
+    UrlMapping findByShortUrlAndUserAndDeletedFalse(String shortUrl, User user);
+    List<UrlMapping> findByUserAndDeletedFalse(User user);
     Page<UrlMapping> findByUserAndDeletedFalse(User user, Pageable pageable);
     Optional<UrlMapping> findByIdAndUserAndDeletedFalse(Long id, User user);
-    Optional<UrlMapping> findByIdAndUser(Long id, User user);
-    List<UrlMapping> findByUserAndOriginalUrlContainingIgnoreCaseOrUserAndShortUrlContainingIgnoreCase(
+    List<UrlMapping> findByUserAndDeletedFalseAndOriginalUrlContainingIgnoreCaseOrUserAndDeletedFalseAndShortUrlContainingIgnoreCase(
             User user,
             String originalUrl,
             User userAgain,

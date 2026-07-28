@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { AUTH_TOKEN_STORAGE_KEY } from "../constants/storage";
+import useAuthStore from "../store/authStore";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -24,7 +25,16 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Future 401/403 session handling belongs in this central interceptor.
+    const status = error?.response?.status;
+
+    if (status === 401 || status === 403) {
+      useAuthStore.getState().logout();
+
+      if (window.location.pathname !== "/login") {
+        window.location.assign("/login");
+      }
+    }
+
     return Promise.reject(error);
   },
 );

@@ -72,7 +72,12 @@ async function createShortUrl(originalUrl, expirationDate = null) {
 
   if (expirationDate instanceof Date) {
     // Drop milliseconds — backend LocalDateTime doesn't use them.
-    body.expirationDate = expirationDate.toISOString().replace(/\.\d{3}Z$/, "");
+    const pad = (value) => String(value).padStart(2, "0");
+    body.expirationDate = `${expirationDate.getFullYear()}-${pad(
+      expirationDate.getMonth() + 1,
+    )}-${pad(expirationDate.getDate())}T${pad(expirationDate.getHours())}:${pad(
+      expirationDate.getMinutes(),
+    )}:${pad(expirationDate.getSeconds())}`;
   }
 
   const response = await apiClient.post("/api/urls/shorten", body);

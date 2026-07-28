@@ -21,7 +21,6 @@ function resolveStatus(active, expirationDate) {
 //
 // Props: the raw UrlMappingDTO fields plus action callbacks from useUrlActions.
 function UrlTableRow({
-  id,
   originalUrl,
   shortUrl,
   clickCount,

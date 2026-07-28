@@ -35,8 +35,7 @@ public class UrlMappingService {
             "createdDate",
             "clickCount",
             "originalUrl",
-            "shortUrl"
-    );
+            "shortUrl");
 
     public UrlMappingDTO createShortUrl(
             String originalUrl,
@@ -63,7 +62,7 @@ public class UrlMappingService {
         return convertToDto(savedUrlMapping);
     }
 
-    private UrlMappingDTO convertToDto(UrlMapping urlMapping){
+    private UrlMappingDTO convertToDto(UrlMapping urlMapping) {
         UrlMappingDTO urlMappingDTO = new UrlMappingDTO();
         urlMappingDTO.setId(urlMapping.getId());
         urlMappingDTO.setOriginalUrl(urlMapping.getOriginalUrl());
@@ -80,7 +79,7 @@ public class UrlMappingService {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         Random random = new Random();
         StringBuilder shortUrl = new StringBuilder(8);
-        for(int i=0; i<8;i++){
+        for (int i = 0; i < 8; i++) {
             shortUrl.append(characters.charAt(random.nextInt(characters.length())));
         }
         return shortUrl.toString();
@@ -93,19 +92,16 @@ public class UrlMappingService {
             String sortBy,
             String direction) {
 
-
         if (!ALLOWED_SORT_FIELDS.contains(sortBy)) {
             throw new IllegalArgumentException(
-                    "Invalid sort field. Allowed values: " + ALLOWED_SORT_FIELDS
-            );
+                    "Invalid sort field. Allowed values: " + ALLOWED_SORT_FIELDS);
         }
 
         if (!direction.equalsIgnoreCase("asc")
                 && !direction.equalsIgnoreCase("desc")) {
 
             throw new IllegalArgumentException(
-                    "Direction must be either asc or desc."
-            );
+                    "Direction must be either asc or desc.");
         }
 
         Sort sort = direction.equalsIgnoreCase("desc")
@@ -114,32 +110,35 @@ public class UrlMappingService {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Page<UrlMapping> urlPage =
-                urlMappingRepository.findByUserAndDeletedFalse(user, pageable);
+        Page<UrlMapping> urlPage = urlMappingRepository.findByUserAndDeletedFalse(user, pageable);
 
         return urlPage.map(this::convertToDto);
     }
 
-    public List<ClickEventDTO> getClickEventsByDate(String shortUrl, LocalDateTime start, LocalDateTime end) {
-        UrlMapping urlMapping = urlMappingRepository.findByShortUrlAndDeletedFalse(shortUrl);
-        if(urlMapping != null){
-            return clickEventRepository.findByUrlMappingAndClickDateBetween(urlMapping, start, end).stream()
-                    .collect(Collectors.groupingBy(click -> click.getClickDate().toLocalDate(), Collectors.counting()))
-                    .entrySet().stream()
-                    .map(entry -> {
-                        ClickEventDTO clickEventDTO = new ClickEventDTO();
-                        clickEventDTO.setClickDate(entry.getKey());
-                        clickEventDTO.setCount(entry.getValue());
-                        return clickEventDTO;
-                    })
-                    .collect(Collectors.toList());
+    public List<ClickEventDTO> getClickEventsByDate(
+            String shortUrl, LocalDateTime start, LocalDateTime end, User user) {
+        UrlMapping urlMapping = urlMappingRepository.findByShortUrlAndUserAndDeletedFalse(shortUrl, user);
+        if (urlMapping == null) {
+            throw new UrlNotFoundException("Short URL not found.");
         }
-        return null;
+
+        return clickEventRepository.findByUrlMappingAndClickDateBetween(urlMapping, start, end).stream()
+                .collect(Collectors.groupingBy(click -> click.getClickDate().toLocalDate(), Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(entry -> {
+                    ClickEventDTO clickEventDTO = new ClickEventDTO();
+                    clickEventDTO.setClickDate(entry.getKey());
+                    clickEventDTO.setCount(entry.getValue());
+                    return clickEventDTO;
+                })
+                .toList();
     }
 
     public Map<LocalDate, Long> getTotalClicksByUserAndDate(User user, LocalDate start, LocalDate end) {
-        List<UrlMapping> urlMappings = urlMappingRepository.findByUser(user);
-        List<ClickEvent> clickEvents = clickEventRepository.findByUrlMappingInAndClickDateBetween(urlMappings, start.atStartOfDay(), end.plusDays(1).atStartOfDay());
+        List<UrlMapping> urlMappings = urlMappingRepository.findByUserAndDeletedFalse(user);
+        List<ClickEvent> clickEvents = clickEventRepository.findByUrlMappingInAndClickDateBetween(urlMappings,
+                start.atStartOfDay(), end.plusDays(1).atStartOfDay());
         return clickEvents.stream()
                 .collect(Collectors.groupingBy(click -> click.getClickDate().toLocalDate(), Collectors.counting()));
     }
@@ -172,36 +171,34 @@ public class UrlMappingService {
         return urlMapping;
     }
 
-
-    public List<UrlMappingDTO> searchUrls(User user, String query){
-        List<UrlMapping> urlMappings =
-                urlMappingRepository.findByUserAndOriginalUrlContainingIgnoreCaseOrUserAndShortUrlContainingIgnoreCase(
+    public List<UrlMappingDTO> searchUrls(User user, String query) {
+        List<UrlMapping> urlMappings = urlMappingRepository
+                .findByUserAndDeletedFalseAndOriginalUrlContainingIgnoreCaseOrUserAndDeletedFalseAndShortUrlContainingIgnoreCase(
                         user,
                         query,
                         user,
-                        query
-                );
+                        query);
         return urlMappings.stream()
                 .map(this::convertToDto)
                 .toList();
     }
+
     public void deleteUrl(Long id, User user) {
 
         UrlMapping urlMapping = urlMappingRepository
                 .findByIdAndUserAndDeletedFalse(id, user)
-                .orElseThrow(() ->
-                        new IllegalArgumentException("URL not found."));
+                .orElseThrow(() -> new IllegalArgumentException("URL not found."));
 
         urlMapping.setDeleted(true);
 
         urlMappingRepository.save(urlMapping);
     }
+
     public UrlMappingDTO toggleUrlStatus(Long id, User user) {
 
         UrlMapping urlMapping = urlMappingRepository
-                .findByIdAndUser(id, user)
-                .orElseThrow(() ->
-                        new IllegalArgumentException("URL not found."));
+                .findByIdAndUserAndDeletedFalse(id, user)
+                .orElseThrow(() -> new IllegalArgumentException("URL not found."));
 
         urlMapping.setActive(!urlMapping.isActive());
 

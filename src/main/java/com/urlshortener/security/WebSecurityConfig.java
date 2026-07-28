@@ -3,6 +3,7 @@ package com.urlshortener.security;
 import com.urlshortener.security.jwt.JwtAuthenticationFilter;
 import com.urlshortener.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -56,13 +57,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
     http
-            .cors(Customizer.withDefaults())          // <-- Add this
+            .cors(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/api/urls/**").authenticated()
                     .requestMatchers("/{shortUrl}").permitAll()
-                    .anyRequest().permitAll()         // Optional but recommended
+                    .anyRequest().permitAll()
             );
 
     http.authenticationProvider(authenticationProvider());
@@ -75,11 +76,12 @@ public class WebSecurityConfig {
     return http.build();
 }
 @Bean
-public CorsConfigurationSource corsConfigurationSource() {
+public CorsConfigurationSource corsConfigurationSource(
+        @Value("${app.cors.allowed-origins}") List<String> allowedOrigins) {
 
     CorsConfiguration configuration = new CorsConfiguration();
 
-    configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+    configuration.setAllowedOrigins(allowedOrigins);
 
     configuration.setAllowedMethods(List.of(
             "GET",

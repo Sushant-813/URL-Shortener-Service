@@ -120,7 +120,6 @@ function UrlTable({ className = "" }) {
                   items.map((dto) => (
                     <UrlTableRow
                       key={dto.id}
-                      id={dto.id}
                       originalUrl={dto.originalUrl}
                       shortUrl={dto.shortUrl}
                       clickCount={dto.clickCount}

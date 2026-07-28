@@ -21,11 +21,11 @@ function UrlActionButtons({
   onToggle,
   onDelete,
 }) {
-  const isDisabled = isToggling || isDeleting;
+  const isDisabled = isToggling || isDeleting || isExpired;
 
   // Derive toggle aria-label based on current URL state.
   const toggleLabel = isExpired
-    ? "Reactivate URL"
+    ? "Expired URLs cannot be activated"
     : active
       ? "Deactivate URL"
       : "Activate URL";
