@@ -1,0 +1,527 @@
+{
+  "frontend/eslint.config.js": {
+    "mtime": 1784467963.7803397,
+    "ast_hash": "3aa4b57d7f08181d86bde52a4dcb7f22",
+    "semantic_hash": "3aa4b57d7f08181d86bde52a4dcb7f22"
+  },
+  "frontend/package.json": {
+    "mtime": 1785245547.5770063,
+    "ast_hash": "04600e8aeedfd7dd80d4e698b8aef000",
+    "semantic_hash": "04600e8aeedfd7dd80d4e698b8aef000"
+  },
+  "frontend/src/App.jsx": {
+    "mtime": 1784472246.1115804,
+    "ast_hash": "4b664d047cf508292d7a5ec052c733d0",
+    "semantic_hash": "4b664d047cf508292d7a5ec052c733d0"
+  },
+  "frontend/src/components/ProtectedRoute.jsx": {
+    "mtime": 1784751451.3437772,
+    "ast_hash": "889b8df23fa528eff8fa6d7eae07a166",
+    "semantic_hash": "889b8df23fa528eff8fa6d7eae07a166"
+  },
+  "frontend/src/components/PublicRoute.jsx": {
+    "mtime": 1784751451.3443203,
+    "ast_hash": "08eacda4948f316745911a9d5177bf26",
+    "semantic_hash": "08eacda4948f316745911a9d5177bf26"
+  },
+  "frontend/src/components/analytics/AnalyticsSummaryCards.jsx": {
+    "mtime": 1785095951.8571143,
+    "ast_hash": "036613193853d2b4196e9f80a5542fda",
+    "semantic_hash": "036613193853d2b4196e9f80a5542fda"
+  },
+  "frontend/src/components/analytics/ChartSkeleton.jsx": {
+    "mtime": 1785095951.857817,
+    "ast_hash": "1e55190e905274b89bba63434415b696",
+    "semantic_hash": "1e55190e905274b89bba63434415b696"
+  },
+  "frontend/src/components/analytics/DateRangePicker.jsx": {
+    "mtime": 1785179743.8933547,
+    "ast_hash": "cc097c1840f645434dab4c86b3c0a3c8",
+    "semantic_hash": "cc097c1840f645434dab4c86b3c0a3c8"
+  },
+  "frontend/src/components/analytics/TotalClicksChart.jsx": {
+    "mtime": 1785095951.8608837,
+    "ast_hash": "72a4331c75c9c948325e96da980257da",
+    "semantic_hash": "72a4331c75c9c948325e96da980257da"
+  },
+  "frontend/src/components/analytics/UrlAnalyticsPanel.jsx": {
+    "mtime": 1785179743.8944502,
+    "ast_hash": "13581a47083977f395c678459b49030a",
+    "semantic_hash": "13581a47083977f395c678459b49030a"
+  },
+  "frontend/src/components/analytics/UrlClicksChart.jsx": {
+    "mtime": 1785095951.8638198,
+    "ast_hash": "d2337eaa54d080b56008d4f743be32d8",
+    "semantic_hash": "d2337eaa54d080b56008d4f743be32d8"
+  },
+  "frontend/src/components/analytics/UrlSelector.jsx": {
+    "mtime": 1785095951.8638198,
+    "ast_hash": "43ba3bfff3b11e93e7d0bff04137d571",
+    "semantic_hash": "43ba3bfff3b11e93e7d0bff04137d571"
+  },
+  "frontend/src/components/dashboard/QuickActionCard.jsx": {
+    "mtime": 1785179743.8950014,
+    "ast_hash": "9a4ea65f739db7b44ee3022cde958cb2",
+    "semantic_hash": "9a4ea65f739db7b44ee3022cde958cb2"
+  },
+  "frontend/src/components/dashboard/QuickActions.jsx": {
+    "mtime": 1784902909.0323467,
+    "ast_hash": "d49095de96c9a948f6b0e8474888d989",
+    "semantic_hash": "d49095de96c9a948f6b0e8474888d989"
+  },
+  "frontend/src/components/dashboard/RecentUrlItem.jsx": {
+    "mtime": 1785179743.8955295,
+    "ast_hash": "189b0de124f38d19657f7b99b61d2d36",
+    "semantic_hash": "189b0de124f38d19657f7b99b61d2d36"
+  },
+  "frontend/src/components/dashboard/RecentUrls.jsx": {
+    "mtime": 1785179743.8955295,
+    "ast_hash": "71fb533a8e196007aa4c7ab70c6b051a",
+    "semantic_hash": "71fb533a8e196007aa4c7ab70c6b051a"
+  },
+  "frontend/src/components/dashboard/RecentUrlsSkeleton.jsx": {
+    "mtime": 1785179743.8960476,
+    "ast_hash": "59d7f9cb393b8232f652c611ad46f9f6",
+    "semantic_hash": "59d7f9cb393b8232f652c611ad46f9f6"
+  },
+  "frontend/src/components/dashboard/StatisticCard.jsx": {
+    "mtime": 1785179743.8965852,
+    "ast_hash": "524000c733e4792c3ad47efbd3611281",
+    "semantic_hash": "524000c733e4792c3ad47efbd3611281"
+  },
+  "frontend/src/components/dashboard/StatisticsGrid.jsx": {
+    "mtime": 1785179743.8976972,
+    "ast_hash": "db3d1065dd023034e2a39a28870c53d4",
+    "semantic_hash": "db3d1065dd023034e2a39a28870c53d4"
+  },
+  "frontend/src/components/dashboard/StatisticsGridSkeleton.jsx": {
+    "mtime": 1785179743.8982399,
+    "ast_hash": "cd2e6f84f67b9ed4e576475d2738b3df",
+    "semantic_hash": "cd2e6f84f67b9ed4e576475d2738b3df"
+  },
+  "frontend/src/components/landing/DashboardPreview.jsx": {
+    "mtime": 1785179743.8987582,
+    "ast_hash": "8ac03c643256c4b0a7a72b5a0c9ea07a",
+    "semantic_hash": "8ac03c643256c4b0a7a72b5a0c9ea07a"
+  },
+  "frontend/src/components/landing/FeaturesSection.jsx": {
+    "mtime": 1785179743.899291,
+    "ast_hash": "34ccde46e98d41f76303d08fc2a482d9",
+    "semantic_hash": "34ccde46e98d41f76303d08fc2a482d9"
+  },
+  "frontend/src/components/landing/HowItWorksSection.jsx": {
+    "mtime": 1785179743.899291,
+    "ast_hash": "9eee459c7377ef1a4ead8a1e6cc434f9",
+    "semantic_hash": "9eee459c7377ef1a4ead8a1e6cc434f9"
+  },
+  "frontend/src/components/landing/LandingFooter.jsx": {
+    "mtime": 1785179743.8998055,
+    "ast_hash": "a844b17807050de44dc4f5a85f496832",
+    "semantic_hash": "a844b17807050de44dc4f5a85f496832"
+  },
+  "frontend/src/components/landing/LandingHero.jsx": {
+    "mtime": 1785179743.8998055,
+    "ast_hash": "23bc05f403317da34fb782c65554aaa3",
+    "semantic_hash": "23bc05f403317da34fb782c65554aaa3"
+  },
+  "frontend/src/components/landing/LandingSectionHeader.jsx": {
+    "mtime": 1785179743.9008129,
+    "ast_hash": "9b2b68d6ae9401214250d7ede1dfcf37",
+    "semantic_hash": "9b2b68d6ae9401214250d7ede1dfcf37"
+  },
+  "frontend/src/components/landing/TechStackSection.jsx": {
+    "mtime": 1785179743.9008129,
+    "ast_hash": "c35cd63c309bc8c1242478023151e2f0",
+    "semantic_hash": "c35cd63c309bc8c1242478023151e2f0"
+  },
+  "frontend/src/components/layout/DashboardLayout.jsx": {
+    "mtime": 1785179743.9008129,
+    "ast_hash": "c68f8e77bf10a11ff4b537dff15468b7",
+    "semantic_hash": "c68f8e77bf10a11ff4b537dff15468b7"
+  },
+  "frontend/src/components/layout/Navbar.jsx": {
+    "mtime": 1785179743.9018133,
+    "ast_hash": "7720c53a1c8eaa9407361394969ffb69",
+    "semantic_hash": "7720c53a1c8eaa9407361394969ffb69"
+  },
+  "frontend/src/components/layout/PublicLayout.jsx": {
+    "mtime": 1785179743.9028177,
+    "ast_hash": "339d588a5f04b55d0ab16dbf3930af4f",
+    "semantic_hash": "339d588a5f04b55d0ab16dbf3930af4f"
+  },
+  "frontend/src/components/layout/Sidebar.jsx": {
+    "mtime": 1785179743.9028177,
+    "ast_hash": "02a64ddcc413551961bd6ea99ef08589",
+    "semantic_hash": "02a64ddcc413551961bd6ea99ef08589"
+  },
+  "frontend/src/components/layout/Topbar.jsx": {
+    "mtime": 1785179743.9038138,
+    "ast_hash": "5b6df267a3565e5357811ec190df7f3f",
+    "semantic_hash": "5b6df267a3565e5357811ec190df7f3f"
+  },
+  "frontend/src/components/myurls/ShortenForm.jsx": {
+    "mtime": 1785245547.5790403,
+    "ast_hash": "e5f926fd36f674778eb252d4f2c1d10f",
+    "semantic_hash": "e5f926fd36f674778eb252d4f2c1d10f"
+  },
+  "frontend/src/components/myurls/ShortenResult.jsx": {
+    "mtime": 1785179743.9048133,
+    "ast_hash": "b9226a6e4443106a1bfc2f974b9d5f23",
+    "semantic_hash": "b9226a6e4443106a1bfc2f974b9d5f23"
+  },
+  "frontend/src/components/myurls/UrlActionButtons.jsx": {
+    "mtime": 1785245547.5810354,
+    "ast_hash": "bd1853a45a879cf5b0580c56963f1794",
+    "semantic_hash": "bd1853a45a879cf5b0580c56963f1794"
+  },
+  "frontend/src/components/myurls/UrlEmptyState.jsx": {
+    "mtime": 1785179743.9048133,
+    "ast_hash": "86a48d3b0cd8848ebda420561c5ad5f3",
+    "semantic_hash": "86a48d3b0cd8848ebda420561c5ad5f3"
+  },
+  "frontend/src/components/myurls/UrlPagination.jsx": {
+    "mtime": 1785065018.1433854,
+    "ast_hash": "4a602cb0c8bdf8e65f8309c43f79f57b",
+    "semantic_hash": "4a602cb0c8bdf8e65f8309c43f79f57b"
+  },
+  "frontend/src/components/myurls/UrlTable.jsx": {
+    "mtime": 1785245547.5820253,
+    "ast_hash": "79fca4d65d1705d01f69c5d49c937c38",
+    "semantic_hash": "79fca4d65d1705d01f69c5d49c937c38"
+  },
+  "frontend/src/components/myurls/UrlTableHeader.jsx": {
+    "mtime": 1785245547.5845394,
+    "ast_hash": "1ab674fba33c8c45f1eba325f464303f",
+    "semantic_hash": "1ab674fba33c8c45f1eba325f464303f"
+  },
+  "frontend/src/components/myurls/UrlTableRow.jsx": {
+    "mtime": 1785245547.587099,
+    "ast_hash": "308d7337424678990a1c19bf3b20a6b8",
+    "semantic_hash": "308d7337424678990a1c19bf3b20a6b8"
+  },
+  "frontend/src/components/myurls/UrlTableSkeleton.jsx": {
+    "mtime": 1785179743.905814,
+    "ast_hash": "7d1c9ad0c524938f6e725afdb78e8078",
+    "semantic_hash": "7d1c9ad0c524938f6e725afdb78e8078"
+  },
+  "frontend/src/components/ui/Badge.jsx": {
+    "mtime": 1785065018.1455827,
+    "ast_hash": "361a073809caff809169caeb44f41b4b",
+    "semantic_hash": "361a073809caff809169caeb44f41b4b"
+  },
+  "frontend/src/components/ui/Button.jsx": {
+    "mtime": 1785068475.1048055,
+    "ast_hash": "584fa678622fa7f59630c324a2118b33",
+    "semantic_hash": "584fa678622fa7f59630c324a2118b33"
+  },
+  "frontend/src/components/ui/Card.jsx": {
+    "mtime": 1785179743.905814,
+    "ast_hash": "764f3e135573b51719a989a2d410656b",
+    "semantic_hash": "764f3e135573b51719a989a2d410656b"
+  },
+  "frontend/src/components/ui/ConfirmDialog.jsx": {
+    "mtime": 1785068475.1048055,
+    "ast_hash": "48a77d2e495790d2a812fa005629c3d3",
+    "semantic_hash": "48a77d2e495790d2a812fa005629c3d3"
+  },
+  "frontend/src/components/ui/Input.jsx": {
+    "mtime": 1784751451.3500545,
+    "ast_hash": "0cb33828cbe041610a206a19d2c0a21c",
+    "semantic_hash": "0cb33828cbe041610a206a19d2c0a21c"
+  },
+  "frontend/src/components/ui/Toast.jsx": {
+    "mtime": 1785179743.9068134,
+    "ast_hash": "96005bf369baeb1aeb44528c50f6bf6a",
+    "semantic_hash": "96005bf369baeb1aeb44528c50f6bf6a"
+  },
+  "frontend/src/components/ui/ToastContainer.jsx": {
+    "mtime": 1785179743.9068134,
+    "ast_hash": "148cbc01a576a58a8cf563119a7dd953",
+    "semantic_hash": "148cbc01a576a58a8cf563119a7dd953"
+  },
+  "frontend/src/constants/storage.js": {
+    "mtime": 1784751451.3537161,
+    "ast_hash": "5e6a6f8ac4d0381598181a7401d0f984",
+    "semantic_hash": "5e6a6f8ac4d0381598181a7401d0f984"
+  },
+  "frontend/src/hooks/useAuth.js": {
+    "mtime": 1784751451.3542485,
+    "ast_hash": "bce77342085b9fe5dbe9273388342d6e",
+    "semantic_hash": "bce77342085b9fe5dbe9273388342d6e"
+  },
+  "frontend/src/hooks/useToast.js": {
+    "mtime": 1785179743.907815,
+    "ast_hash": "8cfbd4d7dbfb414c3de8e72922576529",
+    "semantic_hash": "8cfbd4d7dbfb414c3de8e72922576529"
+  },
+  "frontend/src/hooks/useUrlActions.js": {
+    "mtime": 1785068475.1053839,
+    "ast_hash": "dafbd6d7729a435b2ee47f98d8b90ef1",
+    "semantic_hash": "dafbd6d7729a435b2ee47f98d8b90ef1"
+  },
+  "frontend/src/hooks/useUrlTable.js": {
+    "mtime": 1785245547.589098,
+    "ast_hash": "12b0d21c17d07ed27995e179bc39cfcf",
+    "semantic_hash": "12b0d21c17d07ed27995e179bc39cfcf"
+  },
+  "frontend/src/main.jsx": {
+    "mtime": 1784923986.1241016,
+    "ast_hash": "8f4f6fd2f96fff82fe144a90aff02622",
+    "semantic_hash": "8f4f6fd2f96fff82fe144a90aff02622"
+  },
+  "frontend/src/pages/analytics/Analytics.jsx": {
+    "mtime": 1785095951.8638198,
+    "ast_hash": "99ea1d1d34c5d7fd5c9a77439d97f4ab",
+    "semantic_hash": "99ea1d1d34c5d7fd5c9a77439d97f4ab"
+  },
+  "frontend/src/pages/dashboard/Dashboard.jsx": {
+    "mtime": 1784902909.0377958,
+    "ast_hash": "0ee3ff9c9010c034fc26a7d5d357aac9",
+    "semantic_hash": "0ee3ff9c9010c034fc26a7d5d357aac9"
+  },
+  "frontend/src/pages/errors/NotFound.jsx": {
+    "mtime": 1785245547.5910985,
+    "ast_hash": "ecd9267b5e16dcc1e16874e9efee64e0",
+    "semantic_hash": "ecd9267b5e16dcc1e16874e9efee64e0"
+  },
+  "frontend/src/pages/landing/Landing.jsx": {
+    "mtime": 1785179743.907815,
+    "ast_hash": "b1412f3a03c18d655460c9b444da104a",
+    "semantic_hash": "b1412f3a03c18d655460c9b444da104a"
+  },
+  "frontend/src/pages/login/Login.jsx": {
+    "mtime": 1785179743.907815,
+    "ast_hash": "3d5e8bfc17b86da0468d34e93b1b00e7",
+    "semantic_hash": "3d5e8bfc17b86da0468d34e93b1b00e7"
+  },
+  "frontend/src/pages/myurls/MyUrls.jsx": {
+    "mtime": 1785065018.1466415,
+    "ast_hash": "6fcb4c9c82197d7eb3ba9086a9fd78e8",
+    "semantic_hash": "6fcb4c9c82197d7eb3ba9086a9fd78e8"
+  },
+  "frontend/src/pages/register/Register.jsx": {
+    "mtime": 1785179743.9088142,
+    "ast_hash": "1b8a761d2e29fe7826573f2ba5d9e263",
+    "semantic_hash": "1b8a761d2e29fe7826573f2ba5d9e263"
+  },
+  "frontend/src/routes/AppRoutes.jsx": {
+    "mtime": 1785179743.9093208,
+    "ast_hash": "4ecbef7b674e11a26b3ab0d7677f6eae",
+    "semantic_hash": "4ecbef7b674e11a26b3ab0d7677f6eae"
+  },
+  "frontend/src/services/analyticsService.js": {
+    "mtime": 1785095951.8683326,
+    "ast_hash": "c1493484e790da81921d99fc19b38436",
+    "semantic_hash": "c1493484e790da81921d99fc19b38436"
+  },
+  "frontend/src/services/apiClient.js": {
+    "mtime": 1785245547.6092417,
+    "ast_hash": "aaa27d18a5e81bc7c40534526e0b4fdd",
+    "semantic_hash": "aaa27d18a5e81bc7c40534526e0b4fdd"
+  },
+  "frontend/src/services/authService.js": {
+    "mtime": 1784751451.3618457,
+    "ast_hash": "b565917ec52f9ea0d533fbe3ea99b84b",
+    "semantic_hash": "b565917ec52f9ea0d533fbe3ea99b84b"
+  },
+  "frontend/src/services/urlService.js": {
+    "mtime": 1785245547.6112454,
+    "ast_hash": "d7285b2d826f197466be4d2cbfffb3b2",
+    "semantic_hash": "d7285b2d826f197466be4d2cbfffb3b2"
+  },
+  "frontend/src/store/authStore.js": {
+    "mtime": 1785245547.6122453,
+    "ast_hash": "3f09473a5ede3543a2b048a1dcab5f35",
+    "semantic_hash": "3f09473a5ede3543a2b048a1dcab5f35"
+  },
+  "frontend/src/store/toastStore.js": {
+    "mtime": 1784923986.1263099,
+    "ast_hash": "64b7e46590ba3882e014701f0506d2b7",
+    "semantic_hash": "64b7e46590ba3882e014701f0506d2b7"
+  },
+  "frontend/src/utils/analyticsUtils.js": {
+    "mtime": 1785095951.8698614,
+    "ast_hash": "87c32763087289acc695be4eec9c20f6",
+    "semantic_hash": "87c32763087289acc695be4eec9c20f6"
+  },
+  "frontend/src/utils/formatDate.js": {
+    "mtime": 1785065018.1476848,
+    "ast_hash": "91d3db086d0214ad0eec17ac693af5e1",
+    "semantic_hash": "91d3db086d0214ad0eec17ac693af5e1"
+  },
+  "frontend/src/utils/jwt.js": {
+    "mtime": 1784751451.3659163,
+    "ast_hash": "697d78165b29094cbb652df466e894e2",
+    "semantic_hash": "697d78165b29094cbb652df466e894e2"
+  },
+  "frontend/src/utils/urlUtils.js": {
+    "mtime": 1785065018.1476848,
+    "ast_hash": "aec804dd1e6330a06ac55f5568015b7f",
+    "semantic_hash": "aec804dd1e6330a06ac55f5568015b7f"
+  },
+  "frontend/vite.config.js": {
+    "mtime": 1784468313.7634094,
+    "ast_hash": "3b70a0b92236b6884dda15346af7cb25",
+    "semantic_hash": "3b70a0b92236b6884dda15346af7cb25"
+  },
+  "mvnw": {
+    "mtime": 1782039248.259095,
+    "ast_hash": "ab50dd89da7da2346b28003352eeeeeb",
+    "semantic_hash": "ab50dd89da7da2346b28003352eeeeeb"
+  },
+  "pom.xml": {
+    "mtime": 1785245547.6132426,
+    "ast_hash": "f527e2bab7208a113c9b3d27b58c5e14",
+    "semantic_hash": "f527e2bab7208a113c9b3d27b58c5e14"
+  },
+  "src/main/java/com/urlshortener/UrlShortenerSbApplication.java": {
+    "mtime": 1782039248.3817873,
+    "ast_hash": "effbd34e081dc4508772d2d7d2953677",
+    "semantic_hash": "effbd34e081dc4508772d2d7d2953677"
+  },
+  "src/main/java/com/urlshortener/controller/AuthController.java": {
+    "mtime": 1785245547.6147573,
+    "ast_hash": "b999d885affdcb2332bd6d51dd743643",
+    "semantic_hash": "b999d885affdcb2332bd6d51dd743643"
+  },
+  "src/main/java/com/urlshortener/controller/RedirectController.java": {
+    "mtime": 1784376096.5008543,
+    "ast_hash": "537f5ab5883a81d56282038827737851",
+    "semantic_hash": "537f5ab5883a81d56282038827737851"
+  },
+  "src/main/java/com/urlshortener/controller/UrlMappingController.java": {
+    "mtime": 1785245547.61577,
+    "ast_hash": "8d6f180b451ad33e130711c09dcef640",
+    "semantic_hash": "8d6f180b451ad33e130711c09dcef640"
+  },
+  "src/main/java/com/urlshortener/dtos/ClickEventDTO.java": {
+    "mtime": 1783431768.156418,
+    "ast_hash": "354eef89045f14bd324829a5f944473c",
+    "semantic_hash": "354eef89045f14bd324829a5f944473c"
+  },
+  "src/main/java/com/urlshortener/dtos/CreateUrlRequest.java": {
+    "mtime": 1785245547.6167426,
+    "ast_hash": "ebc56c1db5b62dfcc33b881ca1c49859",
+    "semantic_hash": "ebc56c1db5b62dfcc33b881ca1c49859"
+  },
+  "src/main/java/com/urlshortener/dtos/LoginRequest.java": {
+    "mtime": 1785245547.6167426,
+    "ast_hash": "74029c8f62c7a1e6a500d2e4b2385d6e",
+    "semantic_hash": "74029c8f62c7a1e6a500d2e4b2385d6e"
+  },
+  "src/main/java/com/urlshortener/dtos/RegisterRequest.java": {
+    "mtime": 1784376097.430046,
+    "ast_hash": "0ca98ad0da606ede4cf91b4087fb0ff6",
+    "semantic_hash": "0ca98ad0da606ede4cf91b4087fb0ff6"
+  },
+  "src/main/java/com/urlshortener/dtos/UrlMappingDTO.java": {
+    "mtime": 1784374467.6538472,
+    "ast_hash": "8a832844c68e1278bcfce2dbc41568e5",
+    "semantic_hash": "8a832844c68e1278bcfce2dbc41568e5"
+  },
+  "src/main/java/com/urlshortener/exception/DuplicateUserException.java": {
+    "mtime": 1783691797.6706293,
+    "ast_hash": "6dcf877899089774c8ddf277db354380",
+    "semantic_hash": "6dcf877899089774c8ddf277db354380"
+  },
+  "src/main/java/com/urlshortener/exception/GlobalExceptionHandler.java": {
+    "mtime": 1784373648.8670957,
+    "ast_hash": "ed1857662d8e0ba0d7a0d86f011f15b4",
+    "semantic_hash": "ed1857662d8e0ba0d7a0d86f011f15b4"
+  },
+  "src/main/java/com/urlshortener/exception/InvalidExpirationDateException.java": {
+    "mtime": 1784373529.2981496,
+    "ast_hash": "ae308f55e1d8ffb5dce5c3c980d22704",
+    "semantic_hash": "ae308f55e1d8ffb5dce5c3c980d22704"
+  },
+  "src/main/java/com/urlshortener/exception/UrlExpiredException.java": {
+    "mtime": 1784373637.45432,
+    "ast_hash": "d6b99ce0758e4381aadcaacc8b60d645",
+    "semantic_hash": "d6b99ce0758e4381aadcaacc8b60d645"
+  },
+  "src/main/java/com/urlshortener/exception/UrlInactiveException.java": {
+    "mtime": 1784235072.0915253,
+    "ast_hash": "a2d4b70b5483ee09decdb5271f8852ac",
+    "semantic_hash": "a2d4b70b5483ee09decdb5271f8852ac"
+  },
+  "src/main/java/com/urlshortener/exception/UrlNotFoundException.java": {
+    "mtime": 1784235048.9347265,
+    "ast_hash": "4d3b3ccf8311b1f1a07a9aef2f1046da",
+    "semantic_hash": "4d3b3ccf8311b1f1a07a9aef2f1046da"
+  },
+  "src/main/java/com/urlshortener/models/ClickEvent.java": {
+    "mtime": 1782137787.6980238,
+    "ast_hash": "734445b22a9db04408509b516e6ed2e5",
+    "semantic_hash": "734445b22a9db04408509b516e6ed2e5"
+  },
+  "src/main/java/com/urlshortener/models/UrlMapping.java": {
+    "mtime": 1784372618.7100277,
+    "ast_hash": "682375c8f0908da5a53ad44d7a5c8718",
+    "semantic_hash": "682375c8f0908da5a53ad44d7a5c8718"
+  },
+  "src/main/java/com/urlshortener/models/User.java": {
+    "mtime": 1783694440.083421,
+    "ast_hash": "56f4b5cd68648b2d406491ba3a041808",
+    "semantic_hash": "56f4b5cd68648b2d406491ba3a041808"
+  },
+  "src/main/java/com/urlshortener/repository/ClickEventRepository.java": {
+    "mtime": 1784376095.1701088,
+    "ast_hash": "6e2425e1ec9168dacf967897b2f04322",
+    "semantic_hash": "6e2425e1ec9168dacf967897b2f04322"
+  },
+  "src/main/java/com/urlshortener/repository/UrlMappingRepository.java": {
+    "mtime": 1785245547.6182792,
+    "ast_hash": "ec19c77774346065dafe3b0d96a5a497",
+    "semantic_hash": "ec19c77774346065dafe3b0d96a5a497"
+  },
+  "src/main/java/com/urlshortener/repository/UserRepository.java": {
+    "mtime": 1783690710.9224682,
+    "ast_hash": "788d72dd795f9e0811f10b9caf896277",
+    "semantic_hash": "788d72dd795f9e0811f10b9caf896277"
+  },
+  "src/main/java/com/urlshortener/security/WebSecurityConfig.java": {
+    "mtime": 1785245547.6192958,
+    "ast_hash": "91779c81967edfbced8f0b9bf558cbcb",
+    "semantic_hash": "91779c81967edfbced8f0b9bf558cbcb"
+  },
+  "src/main/java/com/urlshortener/security/jwt/JwtAuthenticationFilter.java": {
+    "mtime": 1785245547.620298,
+    "ast_hash": "42e5d1644f4e231642877b8fad66110c",
+    "semantic_hash": "42e5d1644f4e231642877b8fad66110c"
+  },
+  "src/main/java/com/urlshortener/security/jwt/JwtAuthenticationResponse.java": {
+    "mtime": 1783259275.3276684,
+    "ast_hash": "8e4f6a31f41f360a336996e615801008",
+    "semantic_hash": "8e4f6a31f41f360a336996e615801008"
+  },
+  "src/main/java/com/urlshortener/security/jwt/JwtUtils.java": {
+    "mtime": 1785245547.6212966,
+    "ast_hash": "877bdd234a865e86c815b4f88f0f36bc",
+    "semantic_hash": "877bdd234a865e86c815b4f88f0f36bc"
+  },
+  "src/main/java/com/urlshortener/service/UrlMappingService.java": {
+    "mtime": 1785245547.622298,
+    "ast_hash": "235f97750843693af2c8d54d0c2ea9e5",
+    "semantic_hash": "235f97750843693af2c8d54d0c2ea9e5"
+  },
+  "src/main/java/com/urlshortener/service/UserDetailsImpl.java": {
+    "mtime": 1782656160.8898096,
+    "ast_hash": "ba261b7578885b21ff382d6c245797c0",
+    "semantic_hash": "ba261b7578885b21ff382d6c245797c0"
+  },
+  "src/main/java/com/urlshortener/service/UserDetailsServiceImpl.java": {
+    "mtime": 1782739406.1625896,
+    "ast_hash": "6d9d48e686aca8e37da69c4b3e9a88b2",
+    "semantic_hash": "6d9d48e686aca8e37da69c4b3e9a88b2"
+  },
+  "src/main/java/com/urlshortener/service/UserService.java": {
+    "mtime": 1783692134.7807431,
+    "ast_hash": "5e08f332cf74ca5e0cc543f86a46275e",
+    "semantic_hash": "5e08f332cf74ca5e0cc543f86a46275e"
+  },
+  "src/test/java/com/urlshortener/UrlShortenerSbApplicationTests.java": {
+    "mtime": 1782039248.316642,
+    "ast_hash": "4d319ba45364f6eef944b7928817d3cf",
+    "semantic_hash": "4d319ba45364f6eef944b7928817d3cf"
+  }
+}

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>/ — graphify tree viewer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      margin: 20px 0 0 24px;
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #1e3a56;
+    }
+    .controls {
+      margin: 20px 0 15px 24px;
+    }
+    button {
+      margin-right: 10px;
+      padding: 8px 18px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    button:active {
+      background: #004085;
+    }
+    #tree-container {
+      width: calc(100vw - 48px); /* Adjust for body margin/padding */
+      height: 85vh;
+      overflow: auto;
+      border-radius: 8px;
+      background: #fff;
+      margin-left: 24px;
+      margin-right: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border: 1px solid #ddd;
+    }
+    svg {
+      background: #fff;
+      border-radius: 8px;
+      display: block; /* Important for D3 */
+    }
+    .node circle {
+      stroke-width: 2.5px;
+    }
+    .node text { /* Base style for the <text> container */
+      font: 13px 'Segoe UI', sans-serif;
+      paint-order: stroke fill; /* Ensures text is readable over lines */
+      stroke: #fff; /* White halo */
+      stroke-width: 3px; /* Halo thickness */
+      stroke-linejoin: round;
+      stroke-opacity: 0.85; /* Halo opacity */
+    }
+    .link {
+      fill: none;
+      stroke-opacity: 0.7;
+      stroke-width: 2px;
+    }
+  </style>
+</head>
+<body>
+  <h1>/ — Knowledge Graph</h1>
+  <div class="controls">
+    <button onclick="expandAll()">Expand All</button>
+    <button onclick="collapseAll()">Collapse All</button>
+    <button onclick="resetView()">Reset View</button>
+  </div>
+  <div id="tree-container">
+    <svg id="tree-svg" width="6000" height="8000"></svg>
+  </div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>
+    const initialJsonData = {"name":"/","total_count":294,"children":[{"name":"frontend","total_count":189,"children":[{"name":"package.json","total_count":51,"children":[{"name":"@eslint/js","total_count":1,"children":[]},{"name":"@eslint/js","total_count":1,"children":[]},{"name":"@tailwindcss/vite","total_count":1,"children":[]},{"name":"@tailwindcss/vite","total_count":1,"children":[]},{"name":"@tanstack/react-query","total_count":1,"children":[]},{"name":"@tanstack/react-query","total_count":1,"children":[]},{"name":"@types/react","total_count":1,"children":[]},{"name":"@types/react","total_count":1,"children":[]},{"name":"@types/react-dom","total_count":1,"children":[]},{"name":"@types/react-dom","total_count":1,"children":[]},{"name":"@vitejs/plugin-react","total_count":1,"children":[]},{"name":"@vitejs/plugin-react","total_count":1,"children":[]},{"name":"axios","total_count":1,"children":[]},{"name":"axios","total_count":1,"children":[]},{"name":"build","total_count":1,"children":[]},{"name":"dependencies","total_count":1,"children":[]},{"name":"dev","total_count":1,"children":[]},{"name":"devDependencies","total_count":1,"children":[]},{"name":"eslint","total_count":1,"children":[]},{"name":"eslint","total_count":1,"children":[]},{"name":"eslint-plugin-react-hooks","total_count":1,"children":[]},{"name":"eslint-plugin-react-hooks","total_count":1,"children":[]},{"name":"eslint-plugin-react-refresh","total_count":1,"children":[]},{"name":"eslint-plugin-react-refresh","total_count":1,"children":[]},{"name":"globals","total_count":1,"children":[]},{"name":"globals","total_count":1,"children":[]},{"name":"lint","total_count":1,"children":[]},{"name":"lucide-react","total_count":1,"children":[]},{"name":"lucide-react","total_count":1,"children":[]},{"name":"name","total_count":1,"children":[]},{"name":"preview","total_count":1,"children":[]},{"name":"private","total_count":1,"children":[]},{"name":"react","total_count":1,"children":[]},{"name":"react","total_count":1,"children":[]},{"name":"react-dom","total_count":1,"children":[]},{"name":"react-dom","total_count":1,"children":[]},{"name":"react-hook-form","total_count":1,"children":[]},{"name":"react-hook-form","total_count":1,"children":[]},{"name":"react-router-dom","total_count":1,"children":[]},{"name":"react-router-dom","total_count":1,"children":[]},{"name":"recharts","total_count":1,"children":[]},{"name":"recharts","total_count":1,"children":[]},{"name":"scripts","total_count":1,"children":[]},{"name":"tailwindcss","total_count":1,"children":[]},{"name":"tailwindcss","total_count":1,"children":[]},{"name":"type","total_count":1,"children":[]},{"name":"version","total_count":1,"children":[]},{"name":"vite","total_count":1,"children":[]},{"name":"vite","total_count":1,"children":[]},{"name":"zustand","total_count":1,"children":[]},{"name":"zustand","total_count":1,"children":[]}]},{"name":"src","total_count":136,"children":[{"name":"App.jsx","total_count":1,"children":[{"name":"App()","total_count":1,"children":[]}]},{"name":"components","total_count":75,"children":[{"name":"analytics","total_count":13,"children":[{"name":"AnalyticsSummaryCards.jsx","total_count":2,"children":[{"name":"AnalyticsSummaryCards()","total_count":1,"children":[]},{"name":"SkeletonCard()","total_count":1,"children":[]}]},{"name":"ChartSkeleton.jsx","total_count":1,"children":[{"name":"ChartSkeleton()","total_count":1,"children":[]}]},{"name":"DateRangePicker.jsx","total_count":2,"children":[{"name":"DateRangePicker()","total_count":1,"children":[]},{"name":"PRESETS","total_count":1,"children":[]}]},{"name":"TotalClicksChart.jsx","total_count":2,"children":[{"name":"ChartTooltip()","total_count":1,"children":[]},{"name":"TotalClicksChart()","total_count":1,"children":[]}]},{"name":"UrlAnalyticsPanel.jsx","total_count":3,"children":[{"name":"resolveStatus()","total_count":1,"children":[]},{"name":"SelectedUrlMeta()","total_count":1,"children":[]},{"name":"UrlAnalyticsPanel()","total_count":1,"children":[]}]},{"name":"UrlClicksChart.jsx","total_count":2,"children":[{"name":"ChartTooltip()","total_count":1,"children":[]},{"name":"UrlClicksChart()","total_count":1,"children":[]}]},{"name":"UrlSelector.jsx","total_count":1,"children":[{"name":"UrlSelector()","total_count":1,"children":[]}]}]},{"name":"dashboard","total_count":15,"children":[{"name":"QuickActionCard.jsx","total_count":1,"children":[{"name":"QuickActionCard()","total_count":1,"children":[]}]},{"name":"QuickActions.jsx","total_count":2,"children":[{"name":"QUICK_ACTIONS","total_count":1,"children":[]},{"name":"QuickActions()","total_count":1,"children":[]}]},{"name":"RecentUrlItem.jsx","total_count":1,"children":[{"name":"RecentUrlItem()","total_count":1,"children":[]}]},{"name":"RecentUrls.jsx","total_count":3,"children":[{"name":"mapUrlToItem()","total_count":1,"children":[]},{"name":"RecentUrls()","total_count":1,"children":[]},{"name":"resolveStatus()","total_count":1,"children":[]}]},{"name":"RecentUrlsSkeleton.jsx","total_count":2,"children":[{"name":"RecentUrlsSkeleton()","total_count":1,"children":[]},{"name":"SkeletonRecentItem()","total_count":1,"children":[]}]},{"name":"StatisticCard.jsx","total_count":1,"children":[{"name":"StatisticCard()","total_count":1,"children":[]}]},{"name":"StatisticsGrid.jsx","total_count":3,"children":[{"name":"EMPTY_STATS","total_count":1,"children":[]},{"name":"STAT_DEFINITIONS","total_count":1,"children":[]},{"name":"StatisticsGrid()","total_count":1,"children":[]}]},{"name":"StatisticsGridSkeleton.jsx","total_count":2,"children":[{"name":"SkeletonStatCard()","total_count":1,"children":[]},{"name":"StatisticsGridSkeleton()","total_count":1,"children":[]}]}]},{"name":"landing","total_count":12,"children":[{"name":"DashboardPreview.jsx","total_count":3,"children":[{"name":"DashboardPreview()","total_count":1,"children":[]},{"name":"MOCK_RECENT_URLS","total_count":1,"children":[]},{"name":"MOCK_STATS","total_count":1,"children":[]}]},{"name":"FeaturesSection.jsx","total_count":2,"children":[{"name":"FEATURES","total_count":1,"children":[]},{"name":"FeaturesSection()","total_count":1,"children":[]}]},{"name":"HowItWorksSection.jsx","total_count":2,"children":[{"name":"HowItWorksSection()","total_count":1,"children":[]},{"name":"STEPS","total_count":1,"children":[]}]},{"name":"LandingFooter.jsx","total_count":1,"children":[{"name":"LandingFooter()","total_count":1,"children":[]}]},{"name":"LandingHero.jsx","total_count":1,"children":[{"name":"LandingHero()","total_count":1,"children":[]}]},{"name":"LandingSectionHeader.jsx","total_count":1,"children":[{"name":"LandingSectionHeader()","total_count":1,"children":[]}]},{"name":"TechStackSection.jsx","total_count":2,"children":[{"name":"TECH_ITEMS","total_count":1,"children":[]},{"name":"TechStackSection()","total_count":1,"children":[]}]}]},{"name":"layout","total_count":7,"children":[{"name":"DashboardLayout.jsx","total_count":2,"children":[{"name":"DashboardLayout()","total_count":1,"children":[]},{"name":"PAGE_TITLES","total_count":1,"children":[]}]},{"name":"Navbar.jsx","total_count":1,"children":[{"name":"Navbar()","total_count":1,"children":[]}]},{"name":"PublicLayout.jsx","total_count":1,"children":[{"name":"PublicLayout()","total_count":1,"children":[]}]},{"name":"Sidebar.jsx","total_count":2,"children":[{"name":"NAVIGATION_ITEMS","total_count":1,"children":[]},{"name":"Sidebar()","total_count":1,"children":[]}]},{"name":"Topbar.jsx","total_count":1,"children":[{"name":"Topbar()","total_count":1,"children":[]}]}]},{"name":"myurls","total_count":16,"children":[{"name":"ShortenForm.jsx","total_count":4,"children":[{"name":"getMinDatetimeLocal()","total_count":1,"children":[]},{"name":"getShortenErrorMessage()","total_count":1,"children":[]},{"name":"parseDatetimeLocal()","total_count":1,"children":[]},{"name":"ShortenForm()","total_count":1,"children":[]}]},{"name":"ShortenResult.jsx","total_count":1,"children":[{"name":"ShortenResult()","total_count":1,"children":[]}]},{"name":"UrlActionButtons.jsx","total_count":1,"children":[{"name":"UrlActionButtons()","total_count":1,"children":[]}]},{"name":"UrlEmptyState.jsx","total_count":1,"children":[{"name":"UrlEmptyState()","total_count":1,"children":[]}]},{"name":"UrlPagination.jsx","total_count":1,"children":[{"name":"UrlPagination()","total_count":1,"children":[]}]},{"name":"UrlTable.jsx","total_count":1,"children":[{"name":"UrlTable()","total_count":1,"children":[]}]},{"name":"UrlTableHeader.jsx","total_count":3,"children":[{"name":"COLUMNS","total_count":1,"children":[]},{"name":"SortableHeader()","total_count":1,"children":[]},{"name":"UrlTableHeader()","total_count":1,"children":[]}]},{"name":"UrlTableRow.jsx","total_count":2,"children":[{"name":"resolveStatus()","total_count":1,"children":[]},{"name":"UrlTableRow()","total_count":1,"children":[]}]},{"name":"UrlTableSkeleton.jsx","total_count":2,"children":[{"name":"SkeletonCell()","total_count":1,"children":[]},{"name":"UrlTableSkeleton()","total_count":1,"children":[]}]}]},{"name":"ProtectedRoute.jsx","total_count":1,"children":[{"name":"ProtectedRoute()","total_count":1,"children":[]}]},{"name":"PublicRoute.jsx","total_count":1,"children":[{"name":"PublicRoute()","total_count":1,"children":[]}]},{"name":"ui","total_count":10,"children":[{"name":"Badge.jsx","total_count":2,"children":[{"name":"Badge()","total_count":1,"children":[]},{"name":"STATUS_CONFIG","total_count":1,"children":[]}]},{"name":"Button.jsx","total_count":2,"children":[{"name":"Button()","total_count":1,"children":[]},{"name":"VARIANT_CLASSES","total_count":1,"children":[]}]},{"name":"Card.jsx","total_count":1,"children":[{"name":"Card()","total_count":1,"children":[]}]},{"name":"ConfirmDialog.jsx","total_count":1,"children":[{"name":"ConfirmDialog()","total_count":1,"children":[]}]},{"name":"Input.jsx","total_count":1,"children":[{"name":"Input","total_count":1,"children":[]}]},{"name":"Toast.jsx","total_count":2,"children":[{"name":"Toast()","total_count":1,"children":[]},{"name":"TYPE_CONFIG","total_count":1,"children":[]}]},{"name":"ToastContainer.jsx","total_count":1,"children":[{"name":"ToastContainer()","total_count":1,"children":[]}]}]}]},{"name":"constants","total_count":1,"children":[{"name":"storage.js","total_count":1,"children":[]}]},{"name":"hooks","total_count":9,"children":[{"name":"useAuth.js","total_count":1,"children":[{"name":"useAuth()","total_count":1,"children":[]}]},{"name":"useToast.js","total_count":1,"children":[{"name":"useToast()","total_count":1,"children":[]}]},{"name":"useUrlActions.js","total_count":6,"children":[{"name":"applyToAllUrlCaches()","total_count":1,"children":[]},{"name":"getActionErrorMessage()","total_count":1,"children":[]},{"name":"isUrlExpiredInCache()","total_count":1,"children":[]},{"name":"restoreUrlCaches()","total_count":1,"children":[]},{"name":"snapshotUrlCaches()","total_count":1,"children":[]},{"name":"useUrlActions()","total_count":1,"children":[]}]},{"name":"useUrlTable.js","total_count":1,"children":[{"name":"useUrlTable()","total_count":1,"children":[]}]}]},{"name":"main.jsx","total_count":1,"children":[{"name":"queryClient","total_count":1,"children":[]}]},{"name":"pages","total_count":12,"children":[{"name":"analytics","total_count":2,"children":[{"name":"Analytics.jsx","total_count":2,"children":[{"name":"Analytics()","total_count":1,"children":[]},{"name":"defaultStartDate()","total_count":1,"children":[]}]}]},{"name":"dashboard","total_count":1,"children":[{"name":"Dashboard.jsx","total_count":1,"children":[{"name":"Dashboard()","total_count":1,"children":[]}]}]},{"name":"errors","total_count":1,"children":[{"name":"NotFound.jsx","total_count":1,"children":[{"name":"NotFound()","total_count":1,"children":[]}]}]},{"name":"landing","total_count":1,"children":[{"name":"Landing.jsx","total_count":1,"children":[{"name":"Landing()","total_count":1,"children":[]}]}]},{"name":"login","total_count":3,"children":[{"name":"Login.jsx","total_count":3,"children":[{"name":"getLoginErrorMessage()","total_count":1,"children":[]},{"name":"getPostLoginDestination()","total_count":1,"children":[]},{"name":"Login()","total_count":1,"children":[]}]}]},{"name":"myurls","total_count":1,"children":[{"name":"MyUrls.jsx","total_count":1,"children":[{"name":"MyUrls()","total_count":1,"children":[]}]}]},{"name":"register","total_count":3,"children":[{"name":"Register.jsx","total_count":3,"children":[{"name":"getRegistrationErrorMessage()","total_count":1,"children":[]},{"name":"Register()","total_count":1,"children":[]},{"name":"REGISTRATION_FIELDS","total_count":1,"children":[]}]}]}]},{"name":"routes","total_count":1,"children":[{"name":"AppRoutes.jsx","total_count":1,"children":[{"name":"AppRoutes()","total_count":1,"children":[]}]}]},{"name":"services","total_count":15,"children":[{"name":"analyticsService.js","total_count":3,"children":[{"name":"analyticsService","total_count":1,"children":[]},{"name":"getTotalClicks()","total_count":1,"children":[]},{"name":"getUrlAnalytics()","total_count":1,"children":[]}]},{"name":"apiClient.js","total_count":1,"children":[{"name":"apiClient","total_count":1,"children":[]}]},{"name":"authService.js","total_count":3,"children":[{"name":"authService","total_count":1,"children":[]},{"name":"login()","total_count":1,"children":[]},{"name":"register()","total_count":1,"children":[]}]},{"name":"urlService.js","total_count":8,"children":[{"name":"createShortUrl()","total_count":1,"children":[]},{"name":"deleteUrl()","total_count":1,"children":[]},{"name":"getDashboardStats()","total_count":1,"children":[]},{"name":"getRecentUrls()","total_count":1,"children":[]},{"name":"getUserUrls()","total_count":1,"children":[]},{"name":"searchUrls()","total_count":1,"children":[]},{"name":"toggleUrlStatus()","total_count":1,"children":[]},{"name":"urlService","total_count":1,"children":[]}]}]},{"name":"store","total_count":9,"children":[{"name":"authStore.js","total_count":8,"children":[{"name":"clearExpirationTimer()","total_count":1,"children":[]},{"name":"EMPTY_AUTH_STATE","total_count":1,"children":[]},{"name":"getSessionState()","total_count":1,"children":[]},{"name":"getStoredToken()","total_count":1,"children":[]},{"name":"removeStoredToken()","total_count":1,"children":[]},{"name":"scheduleSessionExpiration()","total_count":1,"children":[]},{"name":"storeToken()","total_count":1,"children":[]},{"name":"useAuthStore","total_count":1,"children":[]}]},{"name":"toastStore.js","total_count":1,"children":[{"name":"useToastStore","total_count":1,"children":[]}]}]},{"name":"utils","total_count":12,"children":[{"name":"analyticsUtils.js","total_count":5,"children":[{"name":"buildTotalClicksChartData()","total_count":1,"children":[]},{"name":"buildUrlClicksChartData()","total_count":1,"children":[]},{"name":"computeSummaryStats()","total_count":1,"children":[]},{"name":"generateDateRange()","total_count":1,"children":[]},{"name":"toISODate()","total_count":1,"children":[]}]},{"name":"formatDate.js","total_count":1,"children":[{"name":"formatDate()","total_count":1,"children":[]}]},{"name":"jwt.js","total_count":5,"children":[{"name":"decodeJwt()","total_count":1,"children":[]},{"name":"extractRoles()","total_count":1,"children":[]},{"name":"extractUsername()","total_count":1,"children":[]},{"name":"getPayload()","total_count":1,"children":[]},{"name":"isTokenExpired()","total_count":1,"children":[]}]},{"name":"urlUtils.js","total_count":1,"children":[{"name":"buildFullShortUrl()","total_count":1,"children":[]}]}]}]},{"name":"eslint.config.js","total_count":1,"children":[]},{"name":"vite.config.js","total_count":1,"children":[]}]},{"name":"mvnw","total_count":9,"children":[{"name":"clean()","total_count":1,"children":[]},{"name":"die()","total_count":1,"children":[]},{"name":"exec_maven()","total_count":1,"children":[]},{"name":"hash_string()","total_count":1,"children":[]},{"name":"mvnw script","total_count":1,"children":[]},{"name":"native_path()","total_count":1,"children":[]},{"name":"set_java_home()","total_count":1,"children":[]},{"name":"trim()","total_count":1,"children":[]},{"name":"verbose()","total_count":1,"children":[]}]},{"name":"pom.xml","total_count":1,"children":[{"name":"com.url:url-shortener-sb","total_count":1,"children":[]}]},{"name":"src","total_count":95,"children":[{"name":"main","total_count":93,"children":[{"name":"java","total_count":93,"children":[{"name":"com","total_count":93,"children":[{"name":"urlshortener","total_count":93,"children":[{"name":"controller","total_count":13,"children":[{"name":"AuthController.java","total_count":3,"children":[{"name":".loginUser()","total_count":1,"children":[]},{"name":".registerUser()","total_count":1,"children":[]},{"name":"AuthController","total_count":1,"children":[]}]},{"name":"RedirectController.java","total_count":2,"children":[{"name":".redirect()","total_count":1,"children":[]},{"name":"RedirectController","total_count":1,"children":[]}]},{"name":"UrlMappingController.java","total_count":8,"children":[{"name":".createShortUrl()","total_count":1,"children":[]},{"name":".deleteUrl()","total_count":1,"children":[]},{"name":".getTotalClicksByDate()","total_count":1,"children":[]},{"name":".getUrlAnalytics()","total_count":1,"children":[]},{"name":".getUserUrls()","total_count":1,"children":[]},{"name":".searchUrls()","total_count":1,"children":[]},{"name":".toggleUrlStatus()","total_count":1,"children":[]},{"name":"UrlMappingController","total_count":1,"children":[]}]}]},{"name":"dtos","total_count":5,"children":[{"name":"ClickEventDTO.java","total_count":1,"children":[{"name":"ClickEventDTO","total_count":1,"children":[]}]},{"name":"CreateUrlRequest.java","total_count":1,"children":[{"name":"CreateUrlRequest","total_count":1,"children":[]}]},{"name":"LoginRequest.java","total_count":1,"children":[{"name":"LoginRequest","total_count":1,"children":[]}]},{"name":"RegisterRequest.java","total_count":1,"children":[{"name":"RegisterRequest","total_count":1,"children":[]}]},{"name":"UrlMappingDTO.java","total_count":1,"children":[{"name":"UrlMappingDTO","total_count":1,"children":[]}]}]},{"name":"exception","total_count":18,"children":[{"name":"DuplicateUserException.java","total_count":2,"children":[{"name":".DuplicateUserException()","total_count":1,"children":[]},{"name":"DuplicateUserException","total_count":1,"children":[]}]},{"name":"GlobalExceptionHandler.java","total_count":8,"children":[{"name":".handleDuplicateUserException()","total_count":1,"children":[]},{"name":".handleIllegalArgumentException()","total_count":1,"children":[]},{"name":".handleInvalidExpirationDate()","total_count":1,"children":[]},{"name":".handleUrlExpired()","total_count":1,"children":[]},{"name":".handleUrlInactive()","total_count":1,"children":[]},{"name":".handleUrlNotFound()","total_count":1,"children":[]},{"name":".handleValidationExceptions()","total_count":1,"children":[]},{"name":"GlobalExceptionHandler","total_count":1,"children":[]}]},{"name":"InvalidExpirationDateException.java","total_count":2,"children":[{"name":".InvalidExpirationDateException()","total_count":1,"children":[]},{"name":"InvalidExpirationDateException","total_count":1,"children":[]}]},{"name":"UrlExpiredException.java","total_count":2,"children":[{"name":".UrlExpiredException()","total_count":1,"children":[]},{"name":"UrlExpiredException","total_count":1,"children":[]}]},{"name":"UrlInactiveException.java","total_count":2,"children":[{"name":".UrlInactiveException()","total_count":1,"children":[]},{"name":"UrlInactiveException","total_count":1,"children":[]}]},{"name":"UrlNotFoundException.java","total_count":2,"children":[{"name":".UrlNotFoundException()","total_count":1,"children":[]},{"name":"UrlNotFoundException","total_count":1,"children":[]}]}]},{"name":"models","total_count":3,"children":[{"name":"ClickEvent.java","total_count":1,"children":[{"name":"ClickEvent","total_count":1,"children":[]}]},{"name":"UrlMapping.java","total_count":1,"children":[{"name":"UrlMapping","total_count":1,"children":[]}]},{"name":"User.java","total_count":1,"children":[{"name":"User","total_count":1,"children":[]}]}]},{"name":"repository","total_count":13,"children":[{"name":"ClickEventRepository.java","total_count":3,"children":[{"name":".findByUrlMappingAndClickDateBetween()","total_count":1,"children":[]},{"name":".findByUrlMappingInAndClickDateBetween()","total_count":1,"children":[]},{"name":"ClickEventRepository","total_count":1,"children":[]}]},{"name":"UrlMappingRepository.java","total_count":6,"children":[{"name":".findByIdAndUserAndDeletedFalse()","total_count":1,"children":[]},{"name":".findByShortUrlAndDeletedFalse()","total_count":1,"children":[]},{"name":".findByShortUrlAndUserAndDeletedFalse()","total_count":1,"children":[]},{"name":".findByUserAndDeletedFalse()","total_count":1,"children":[]},{"name":".findByUserAndDeletedFalseAndOriginalUrlContainingIgnoreCaseOrUserAndDeletedFalseAndShortUrlContainingIgnoreCase()","total_count":1,"children":[]},{"name":"UrlMappingRepository","total_count":1,"children":[]}]},{"name":"UserRepository.java","total_count":4,"children":[{"name":".existsByEmail()","total_count":1,"children":[]},{"name":".existsByUsername()","total_count":1,"children":[]},{"name":".findByUsername()","total_count":1,"children":[]},{"name":"UserRepository","total_count":1,"children":[]}]}]},{"name":"security","total_count":16,"children":[{"name":"jwt","total_count":9,"children":[{"name":"JwtAuthenticationFilter.java","total_count":2,"children":[{"name":".doFilterInternal()","total_count":1,"children":[]},{"name":"JwtAuthenticationFilter","total_count":1,"children":[]}]},{"name":"JwtAuthenticationResponse.java","total_count":1,"children":[{"name":"JwtAuthenticationResponse","total_count":1,"children":[]}]},{"name":"JwtUtils.java","total_count":6,"children":[{"name":".generateToken()","total_count":1,"children":[]},{"name":".getJwtFromHeader()","total_count":1,"children":[]},{"name":".getUserNameFromJwtToken()","total_count":1,"children":[]},{"name":".key()","total_count":1,"children":[]},{"name":".validateToken()","total_count":1,"children":[]},{"name":"JwtUtils","total_count":1,"children":[]}]}]},{"name":"WebSecurityConfig.java","total_count":7,"children":[{"name":".authenticationManager()","total_count":1,"children":[]},{"name":".authenticationProvider()","total_count":1,"children":[]},{"name":".corsConfigurationSource()","total_count":1,"children":[]},{"name":".filterChain()","total_count":1,"children":[]},{"name":".jwtAuthenticationFilter()","total_count":1,"children":[]},{"name":".passwordEncoder()","total_count":1,"children":[]},{"name":"WebSecurityConfig","total_count":1,"children":[]}]}]},{"name":"service","total_count":23,"children":[{"name":"UrlMappingService.java","total_count":11,"children":[{"name":".convertToDto()","total_count":1,"children":[]},{"name":".createShortUrl()","total_count":1,"children":[]},{"name":".deleteUrl()","total_count":1,"children":[]},{"name":".generateShortUrl()","total_count":1,"children":[]},{"name":".getClickEventsByDate()","total_count":1,"children":[]},{"name":".getOriginalUrl()","total_count":1,"children":[]},{"name":".getTotalClicksByUserAndDate()","total_count":1,"children":[]},{"name":".getUrlsByUser()","total_count":1,"children":[]},{"name":".searchUrls()","total_count":1,"children":[]},{"name":".toggleUrlStatus()","total_count":1,"children":[]},{"name":"UrlMappingService","total_count":1,"children":[]}]},{"name":"UserDetailsImpl.java","total_count":6,"children":[{"name":".build()","total_count":1,"children":[]},{"name":".getAuthorities()","total_count":1,"children":[]},{"name":".getPassword()","total_count":1,"children":[]},{"name":".getUsername()","total_count":1,"children":[]},{"name":".UserDetailsImpl()","total_count":1,"children":[]},{"name":"UserDetailsImpl","total_count":1,"children":[]}]},{"name":"UserDetailsServiceImpl.java","total_count":2,"children":[{"name":".loadUserByUsername()","total_count":1,"children":[]},{"name":"UserDetailsServiceImpl","total_count":1,"children":[]}]},{"name":"UserService.java","total_count":4,"children":[{"name":".authenticateUser()","total_count":1,"children":[]},{"name":".findByUsername()","total_count":1,"children":[]},{"name":".registerUser()","total_count":1,"children":[]},{"name":"UserService","total_count":1,"children":[]}]}]},{"name":"UrlShortenerSbApplication.java","total_count":2,"children":[{"name":".main()","total_count":1,"children":[]},{"name":"UrlShortenerSbApplication","total_count":1,"children":[]}]}]}]}]}]},{"name":"test","total_count":2,"children":[{"name":"java","total_count":2,"children":[{"name":"com","total_count":2,"children":[{"name":"urlshortener","total_count":2,"children":[{"name":"UrlShortenerSbApplicationTests.java","total_count":2,"children":[{"name":".contextLoads()","total_count":1,"children":[]},{"name":"UrlShortenerSbApplicationTests","total_count":1,"children":[]}]}]}]}]}]}]}]};
+
+    function transformData(jsonData) {
+        // Helper function to recursively build the children structure
+        function processNode(node, parentL1StageName) {
+            let displayName = node.name;
+            // Append total_count if it exists and is not already in the name
+            if (node.total_count !== undefined) {
+                if (!/\(Total Count: \d+\)$/.test(displayName)) {
+                    displayName += ` (Total Count: ${node.total_count})`;
+                }
+            }
+
+            const newNode = { name: displayName };
+
+            if (parentL1StageName === "Root") {
+                 newNode.originalStageName = node.name;
+            } else {
+                newNode.originalStageName = parentL1StageName;
+            }
+
+            if (node.children && node.children.length > 0) {
+                const stageNameToPass = (parentL1StageName === "Root") ? node.name : parentL1StageName;
+                newNode.children = node.children.map(child => processNode(child, stageNameToPass));
+            }
+
+            return newNode;
+        }
+
+        let rootDisplayName = jsonData.name;
+        if (jsonData.total_count !== undefined && !/\(Total Count: \d+\)$/.test(rootDisplayName)) {
+            rootDisplayName += ` (Total Count: ${jsonData.total_count})`;
+        }
+
+        return {
+            name: rootDisplayName,
+            originalStageName: "Root",
+            children: (jsonData.children || []).map(child => processNode(child, "Root"))
+        };
+    }
+
+    const treeData = transformData(initialJsonData);
+
+    // Auto-populated phaseColors: every depth-1 child of the root gets
+    // a stable colour from a bigger palette so all top-level dirs are
+    // distinguishable.
+    const PALETTE = [
+      ["#3498DB","#2980B9","#AED6F1"], ["#2ECC71","#27AE60","#A9DFBF"],
+      ["#E74C3C","#C0392B","#F5B7B1"], ["#9B59B6","#8E44AD","#D7BDE2"],
+      ["#F39C12","#D68910","#FAD7A0"], ["#1ABC9C","#117864","#A2D9CE"],
+      ["#34495E","#1B2631","#ABB2B9"], ["#E67E22","#BA4A00","#F5CBA7"],
+      ["#16A085","#0E6655","#A2D9CE"], ["#D35400","#A04000","#EDBB99"],
+      ["#7F8C8D","#566573","#D5DBDB"], ["#C0392B","#7B241C","#F5B7B1"],
+      ["#2E86C1","#1B4F72","#A9CCE3"], ["#28B463","#196F3D","#A9DFBF"],
+      ["#AF7AC5","#6C3483","#D2B4DE"],
+    ];
+    const phaseColors = { "Root": { fill: "#4A4A4A", stroke: "#333333", collapsedFill: "#6C757D" },
+                          "Default": { fill: "#BDC3C7", stroke: "#95A5A6", collapsedFill: "#ECF0F1" } };
+    (initialJsonData.children || []).forEach((c, i) => {
+      const pal = PALETTE[i % PALETTE.length];
+      phaseColors[c.name] = { fill: pal[0], stroke: pal[1], collapsedFill: pal[2] };
+    });
+
+    const levelSpecificPalettes = {
+      0: { fill: "#4A4A4A", stroke: "#333333", collapsedFill: "#6C757D" },
+      2: { fill: "#6ab04c", stroke: "#508a38", collapsedFill: "#a3d391" },
+      3: { fill: "#f0932b", stroke: "#d0730f", collapsedFill: "#f6c07e" },
+      4: { fill: "#be2edd", stroke: "#a01cb3", collapsedFill: "#e08bf2" },
+      5: { fill: "#00a8ff", stroke: "#007ac1", collapsedFill: "#74d2ff" },
+      6: { fill: "#e55039", stroke: "#c23620", collapsedFill: "#f09a8d" },
+      default: { fill: "#747d8c", stroke: "#57606f", collapsedFill: "#a4b0be" }
+    };
+
+    const svgElement = d3.select("#tree-svg");
+    const initialSvgWidth = +svgElement.attr("width");
+    const initialSvgHeight = +svgElement.attr("height");
+    const margin = { top: 40, right: 120, bottom: 80, left: 450 };
+    let width = initialSvgWidth - margin.left - margin.right;
+    let height = initialSvgHeight - margin.top - margin.bottom;
+    const duration = 500;
+    let nodeCounter = 0;
+    const g = svgElement.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+    const treemap = d3.tree().nodeSize([40, 0]);
+    let rootNode = d3.hierarchy(treeData, d => d.children);
+    rootNode.x0 = 0;
+    rootNode.y0 = 0;
+
+    if (rootNode.children) {
+      rootNode.children.forEach(d_child => {
+        if (d_child.children) { collapseBranch(d_child); }
+      });
+    }
+    updateTree(rootNode);
+
+    function collapseBranch(d) { if (d.children) { d._children = d.children; d._children.forEach(collapseBranch); d.children = null; } }
+    function expandBranch(d) { if (d._children) { d.children = d._children; d._children = null; } if (d.children) { d.children.forEach(expandBranch); } }
+    window.expandAll = () => { expandBranch(rootNode); updateTree(rootNode); };
+    window.collapseAll = () => { if (rootNode.children) { rootNode.children.forEach(collapseBranch); } updateTree(rootNode); };
+    window.resetView = () => { if (rootNode.children) { rootNode.children.forEach(d_child => { if (d_child.children || d_child._children) { collapseBranch(d_child); } }); } if (rootNode._children && !rootNode.children) { rootNode.children = rootNode._children; rootNode._children = null; } updateTree(rootNode); };
+
+    function updateTree(source) {
+      const treeLayoutData = treemap(rootNode);
+      let nodes = treeLayoutData.descendants();
+      let links = treeLayoutData.descendants().slice(1);
+
+      let minX = 0;
+      let maxX = 0;
+      if (nodes.length > 0) {
+        minX = d3.min(nodes, d => d.x);
+        maxX = d3.max(nodes, d => d.x);
+      }
+
+      let neededHeight = Math.max(initialSvgHeight, maxX - minX + margin.top + margin.bottom + 100);
+      svgElement.transition().duration(duration / 2).attr("height", neededHeight);
+      g.transition().duration(duration / 2).attr("transform", `translate(${margin.left},${margin.top - minX + 40})`);
+
+      nodes.forEach(d => { d.y = d.depth * 400; }); // Adjust horizontal separation if needed
+
+      const node = g.selectAll('g.node').data(nodes, d => d.id || (d.id = ++nodeCounter));
+      const nodeEnter = node.enter().append('g')
+        .attr('class', d => "node" + (d.children || d._children ? " node--internal" : " node--leaf") + (d._children ? " _children" : ""))
+        .attr('transform', d => `translate(${source.y0},${source.x0})`)
+        .on('click', (event, d) => { if (d.children) { d._children = d.children; d.children = null; } else if (d._children) { d.children = d._children; d._children = null; } updateTree(d); })
+        .style('cursor', d => (d.children || d._children) ? 'pointer' : 'default');
+
+      nodeEnter.append('circle').attr('r', 1e-6);
+
+      nodeEnter.append('text')
+        .attr('dy', '.35em')
+        .attr('x', d => d.children || d._children ? -14 : 14)
+        .attr('text-anchor', d => d.children || d._children ? 'end' : 'start')
+        .style("fill-opacity", 1e-6)
+        .call(wrapText, 380);
+
+      const nodeUpdate = nodeEnter.merge(node);
+      nodeUpdate.transition().duration(duration)
+        .attr('transform', d => `translate(${d.y},${d.x})`)
+        .attr('class', d => "node" + (d.children ? " node--internal" : " node--leaf") + (d._children ? " node--internal _children" : ""));
+
+      nodeUpdate.select('circle').attr('r', 8.5)
+        .style('fill', d => {
+            let palette;
+            if (d.depth === 0) {
+                palette = levelSpecificPalettes[0];
+            } else if (d.depth === 1) {
+                palette = phaseColors[d.data.originalStageName] || phaseColors.Default;
+            } else {
+                palette = levelSpecificPalettes[d.depth] || levelSpecificPalettes.default;
+            }
+            if (d._children) return palette.collapsedFill;
+            if (d.children) return palette.fill;
+            return "#fff";
+        })
+        .style('stroke', d => {
+            let palette;
+            if (d.depth === 0) {
+                palette = levelSpecificPalettes[0];
+            } else if (d.depth === 1) {
+                palette = phaseColors[d.data.originalStageName] || phaseColors.Default;
+            } else {
+                palette = levelSpecificPalettes[d.depth] || levelSpecificPalettes.default;
+            }
+            return palette.stroke;
+        });
+      nodeUpdate.select('text').style("fill-opacity", 1).call(wrapText, 380);
+
+      const nodeExit = node.exit().transition().duration(duration).attr('transform', d => `translate(${source.y},${source.x})`).remove();
+      nodeExit.select('circle').attr('r', 1e-6);
+      nodeExit.select('text').style('fill-opacity', 1e-6);
+
+      const link = g.selectAll('path.link').data(links, d => d.id);
+      const linkEnter = link.enter().insert('path', "g").attr('class', 'link').attr('d', d => { const o = { x: source.x0, y: source.y0 }; return diagonal(o, o); });
+
+      linkEnter.merge(link).transition().duration(duration).attr('d', d => diagonal(d, d.parent))
+        .style('stroke', d => {
+            const sourceNode = d.parent;
+            if (!sourceNode) return phaseColors.Default.stroke;
+            const l1AncestorName = sourceNode.data.originalStageName;
+            const colorPalette = phaseColors[l1AncestorName] || phaseColors.Default;
+            return colorPalette.stroke;
+        });
+      link.exit().transition().duration(duration).attr('d', d => { const o = { x: source.x, y: source.y }; return diagonal(o, o); }).remove();
+      nodes.forEach(d => { d.x0 = d.x; d.y0 = d.y; });
+    }
+
+    function diagonal(s, d) { return `M ${s.y} ${s.x} C ${(s.y + d.y) / 2} ${s.x}, ${(s.y + d.y) / 2} ${d.x}, ${d.y} ${d.x}`; }
+
+    function wrapText(textElements, maxWidth) {
+        const textPartColors = {
+            name: '#343a40',
+            count: '#0056b3'
+        };
+        const countRegex = /(\s\(Total Count: \d+\))$/;
+
+        textElements.each(function () {
+            const textD3 = d3.select(this);
+            const originalNodeText = textD3.datum().data.name;
+            const x = parseFloat(textD3.attr("x") || 0);
+            const initialDy = textD3.attr("dy");
+            const textAnchor = textD3.attr("text-anchor");
+            const lineHeight = 1.1;
+
+            textD3.text(null);
+
+            let namePart = originalNodeText;
+            let countPartText = "";
+
+            const countMatch = originalNodeText.match(countRegex);
+            if (countMatch && originalNodeText.endsWith(countMatch[0])) {
+                namePart = originalNodeText.substring(0, originalNodeText.length - countMatch[0].length).trim();
+                countPartText = countMatch[0].trim();
+            }
+
+            const tokens = [];
+            namePart.split(/\s+/).filter(Boolean).forEach(word => {
+                tokens.push({ text: word, type: 'name' });
+            });
+            if (countPartText) {
+                tokens.push({ text: countPartText, type: 'count' });
+            }
+
+            if (tokens.length === 0 && originalNodeText) {
+                tokens.push({ text: originalNodeText, type: 'name' });
+            }
+
+            let currentTspan = textD3.append("tspan").attr("x", x).attr("dy", initialDy);
+            if (textAnchor === "end") currentTspan.attr("text-anchor", "end");
+
+            let lineTokens = [];
+
+            for (let i = 0; i < tokens.length; i++) {
+                const tokenObj = tokens[i];
+
+                lineTokens.push(tokenObj);
+                currentTspan.text(lineTokens.map(t => t.text).join(" "));
+
+                if (currentTspan.node().getComputedTextLength() > maxWidth && lineTokens.length > 1) {
+                    lineTokens.pop();
+
+                    currentTspan.text(null);
+                    lineTokens.forEach((prevToken, idx) => {
+                        currentTspan.append("tspan")
+                            .text((idx > 0 ? " " : "") + prevToken.text)
+                            .style("fill", textPartColors[prevToken.type] || textPartColors.name)
+                            .style("font-weight", prevToken.type === 'count' ? "bold" : "normal");
+                    });
+
+                    lineTokens = [tokenObj];
+                    currentTspan = textD3.append("tspan").attr("x", x).attr("dy", lineHeight + "em");
+                    if (textAnchor === "end") currentTspan.attr("text-anchor", "end");
+                }
+            }
+
+            currentTspan.text(null);
+            lineTokens.forEach((token, idx) => {
+                currentTspan.append("tspan")
+                    .text((idx > 0 ? " " : "") + token.text)
+                    .style("fill", textPartColors[token.type] || textPartColors.name)
+                    .style("font-weight", token.type === 'count' ? "bold" : "normal");
+            });
+
+            if (textD3.selectAll("tspan > tspan").empty() && textD3.select("tspan").text().length === 0 && originalNodeText) {
+                let t = textD3.select("tspan");
+                let displayText = originalNodeText;
+                t.text(displayText).style("fill", textPartColors.name);
+                if (t.node() && t.node().getComputedTextLength() > maxWidth && displayText.length > 20) {
+                    let estimatedChars = Math.floor(maxWidth / (t.node().getComputedTextLength()/displayText.length) );
+                    displayText = displayText.substring(0, Math.max(0, estimatedChars - 3)) + "...";
+                    t.text(displayText);
+                }
+            }
+        });
+    }
+  </script>
+</body>
+</html>
