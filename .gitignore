@@ -44,3 +44,12 @@ frontend/dist/
 # ==========================
 .DS_Store
 Thumbs.db
+# Serena
+.serena/cache/
+.serena/memories/
+.serena/project.local.yml
+
+# Playwright MCP
+.playwright-mcp/
+# Serena logs
+.serena/*.log
