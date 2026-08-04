@@ -14,8 +14,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     @Autowired
     private JwtUtils jwtTokenProvider;
 
@@ -39,7 +45,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
 
-        } catch (Exception ignored) {
+        } catch (Exception ex) {
+            log.warn("JWT authentication failed for request [{}]: {}",
+                    request.getRequestURI(), ex.getMessage());
         }
         filterChain.doFilter(request,response);
     }

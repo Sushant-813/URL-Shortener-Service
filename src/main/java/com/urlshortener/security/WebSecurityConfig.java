@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,6 +24,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -32,12 +34,12 @@ public class WebSecurityConfig {
     private UserDetailsServiceImpl userDetailsService;
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(){
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -47,60 +49,105 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-    http
+        http
+            // ── Cross-origin policy (uses the corsConfigurationSource bean below) ──
             .cors(Customizer.withDefaults())
+
+            // ── CSRF disabled: stateless JWT API, no session cookies ──
             .csrf(AbstractHttpConfigurer::disable)
+
+            // ── Session management: stateless — never create an HttpSession ──
+            .sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+            // ── Authorization rules ──
+            //
+            // Rules are evaluated top-to-bottom; the first match wins.
+            // Every path not matched by an explicit permitAll() rule falls
+            // through to the final denyAll() catch-all.
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers("/api/urls/**").authenticated()
-                    .requestMatchers("/{shortUrl}").permitAll()
-                    .anyRequest().permitAll()
+
+                // 1. Authentication endpoints — must be reachable before a token exists.
+                .requestMatchers(
+                        "/api/auth/public/login",
+                        "/api/auth/public/register"
+                ).permitAll()
+
+                // 2. URL redirect endpoint — core public functionality; no login required.
+                //    Pattern uses a single-segment wildcard so it matches /abc123 but NOT
+                //    /a/b or /actuator/health (which contain slashes).
+                .requestMatchers("/{shortUrl:[a-zA-Z0-9]+}").permitAll()
+
+                // 3. Actuator health & info — required for container liveness/readiness probes.
+                //    Only these two sub-paths are permitted; /actuator/env, /actuator/beans,
+                //    etc. are denied by the catch-all below.
+                .requestMatchers(
+                        "/actuator/health",
+                        "/actuator/info"
+                ).permitAll()
+
+                // 4. All URL management API endpoints — authenticated users only.
+                //    @PreAuthorize("hasRole('USER')") on each method provides a second
+                //    enforcement layer.
+                .requestMatchers("/api/urls/**").authenticated()
+
+                // 5. Deny everything else — no implicit public surface.
+                //    Any endpoint added in future is protected by default until
+                //    an explicit rule is added above.
+                .anyRequest().denyAll()
             );
 
-    http.authenticationProvider(authenticationProvider());
+        http.authenticationProvider(authenticationProvider());
 
-    http.addFilterBefore(
-            jwtAuthenticationFilter(),
-            UsernamePasswordAuthenticationFilter.class
-    );
+        http.addFilterBefore(
+                jwtAuthenticationFilter(),
+                UsernamePasswordAuthenticationFilter.class
+        );
 
-    return http.build();
-}
-@Bean
-public CorsConfigurationSource corsConfigurationSource(
-        @Value("${app.cors.allowed-origins}") List<String> allowedOrigins) {
+        return http.build();
+    }
 
-    CorsConfiguration configuration = new CorsConfiguration();
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(
+            @Value("${app.cors.allowed-origins}") List<String> allowedOrigins) {
 
-    configuration.setAllowedOrigins(allowedOrigins);
+        CorsConfiguration configuration = new CorsConfiguration();
 
-    configuration.setAllowedMethods(List.of(
-            "GET",
-            "POST",
-            "PUT",
-            "DELETE",
-            "PATCH",
-            "OPTIONS"
-    ));
+        configuration.setAllowedOrigins(allowedOrigins);
 
-    configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedMethods(List.of(
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "PATCH",
+                "OPTIONS"
+        ));
 
-    configuration.setAllowCredentials(true);
+        // Only the three headers the frontend actually sends.
+        configuration.setAllowedHeaders(List.of(
+                "Authorization",
+                "Content-Type",
+                "Accept"
+        ));
 
-    UrlBasedCorsConfigurationSource source =
-            new UrlBasedCorsConfigurationSource();
+        configuration.setAllowCredentials(true);
 
-    source.registerCorsConfiguration("/**", configuration);
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
 
-    return source;
-}
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
 }
