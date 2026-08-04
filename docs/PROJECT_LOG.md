@@ -827,3 +827,46 @@ Completion Checklist
 Release Outcome
 ---------------
 Upon completion of Phase U, LinkFlow transitions from a versioned source-code release (v1.0.0) to a publicly accessible, fully deployed full-stack application suitable for portfolio presentation, demonstrations, and real-world usage.
+
+# Phase D1.2 – Backend Production Readiness
+
+## Objective
+Finalize backend production readiness by strengthening security policies and production configuration before cloud deployment.
+
+## Completed
+- Added dedicated production Spring profile (`application-prod.properties`)
+- Added Spring Boot Actuator
+- Restricted Actuator exposure to:
+  - `/actuator/health`
+  - `/actuator/info`
+- Configured HikariCP connection pool
+- Added configurable server port (`PORT`)
+- Removed default database username fallback
+- Enabled fail-fast configuration for required environment variables
+- Disabled Open Session in View
+- Added structured production logging
+- Added fallback global exception handler with correlation IDs
+- Improved JWT authentication logging
+- Disabled frontend production source maps
+- Updated backend and frontend `.env.example` files
+- Replaced permissive `anyRequest().permitAll()` policy with explicit authorization rules
+- Configured stateless JWT security (`SessionCreationPolicy.STATELESS`)
+- Added deny-by-default security policy (`anyRequest().denyAll()`)
+- Restricted public routes to:
+  - Login
+  - Register
+  - Redirect endpoint
+  - Actuator health/info
+- Verified public and protected endpoints through manual testing
+- Verified backend builds successfully and Spring context loads successfully
+
+## Status
+✅ Backend is production-ready and prepared for cloud deployment.
+
+## Next Phase
+Deploy production infrastructure:
+1. Cloud database
+2. Backend hosting
+3. Frontend hosting
+4. Production environment configuration
+5. End-to-end deployment verification
