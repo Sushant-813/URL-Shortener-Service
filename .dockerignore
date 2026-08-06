@@ -1,0 +1,36 @@
+# Maven build output
+target/
+
+# Maven wrapper logs
+.mvn/wrapper/maven-wrapper.jar
+
+# Git
+.git
+.gitignore
+
+# IDE files
+.idea/
+.vscode/
+
+# AI / Development tooling
+.serena/
+.codex/
+.run/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+
+# Documentation
+docs/
+graphify-out/
+
+# Docker artifacts
+docker-compose.override.yml
