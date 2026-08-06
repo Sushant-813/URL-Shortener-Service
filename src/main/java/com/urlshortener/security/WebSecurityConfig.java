@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -44,7 +45,8 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -60,59 +62,58 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-            // ── Cross-origin policy (uses the corsConfigurationSource bean below) ──
-            .cors(Customizer.withDefaults())
+                // ── Cross-origin policy (uses the corsConfigurationSource bean below) ──
+                .cors(Customizer.withDefaults())
 
-            // ── CSRF disabled: stateless JWT API, no session cookies ──
-            .csrf(AbstractHttpConfigurer::disable)
+                // ── CSRF disabled: stateless JWT API, no session cookies ──
+                .csrf(AbstractHttpConfigurer::disable)
 
-            // ── Session management: stateless — never create an HttpSession ──
-            .sessionManagement(session ->
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // ── Session management: stateless — never create an HttpSession ──
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-            // ── Authorization rules ──
-            //
-            // Rules are evaluated top-to-bottom; the first match wins.
-            // Every path not matched by an explicit permitAll() rule falls
-            // through to the final denyAll() catch-all.
-            .authorizeHttpRequests(auth -> auth
+                // ── Authorization rules ──
+                //
+                // Rules are evaluated top-to-bottom; the first match wins.
+                // Every path not matched by an explicit permitAll() rule falls
+                // through to the final denyAll() catch-all.
+                .authorizeHttpRequests(auth -> auth
 
-                // 1. Authentication endpoints — must be reachable before a token exists.
-                .requestMatchers(
-                        "/api/auth/public/login",
-                        "/api/auth/public/register"
-                ).permitAll()
+                        // Allow all CORS preflight requests
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // 1. Authentication endpoints — must be reachable before a token exists.
+                        .requestMatchers(
+                                "/api/auth/public/login",
+                                "/api/auth/public/register")
+                        .permitAll()
 
-                // 2. URL redirect endpoint — core public functionality; no login required.
-                //    Pattern uses a single-segment wildcard so it matches /abc123 but NOT
-                //    /a/b or /actuator/health (which contain slashes).
-                .requestMatchers("/{shortUrl:[a-zA-Z0-9]+}").permitAll()
+                        // 2. URL redirect endpoint — core public functionality; no login required.
+                        // Pattern uses a single-segment wildcard so it matches /abc123 but NOT
+                        // /a/b or /actuator/health (which contain slashes).
+                        .requestMatchers("/{shortUrl:[a-zA-Z0-9]+}").permitAll()
 
-                // 3. Actuator health & info — required for container liveness/readiness probes.
-                //    Only these two sub-paths are permitted; /actuator/env, /actuator/beans,
-                //    etc. are denied by the catch-all below.
-                .requestMatchers(
-                        "/actuator/health",
-                        "/actuator/info"
-                ).permitAll()
+                        // 3. Actuator health & info — required for container liveness/readiness probes.
+                        // Only these two sub-paths are permitted; /actuator/env, /actuator/beans,
+                        // etc. are denied by the catch-all below.
+                        .requestMatchers(
+                                "/actuator/health",
+                                "/actuator/info")
+                        .permitAll()
 
-                // 4. All URL management API endpoints — authenticated users only.
-                //    @PreAuthorize("hasRole('USER')") on each method provides a second
-                //    enforcement layer.
-                .requestMatchers("/api/urls/**").authenticated()
+                        // 4. All URL management API endpoints — authenticated users only.
+                        // @PreAuthorize("hasRole('USER')") on each method provides a second
+                        // enforcement layer.
+                        .requestMatchers("/api/urls/**").authenticated()
 
-                // 5. Deny everything else — no implicit public surface.
-                //    Any endpoint added in future is protected by default until
-                //    an explicit rule is added above.
-                .anyRequest().denyAll()
-            );
+                        // 5. Deny everything else — no implicit public surface.
+                        // Any endpoint added in future is protected by default until
+                        // an explicit rule is added above.
+                        .anyRequest().denyAll());
 
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(
                 jwtAuthenticationFilter(),
-                UsernamePasswordAuthenticationFilter.class
-        );
+                UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -131,20 +132,17 @@ public class WebSecurityConfig {
                 "PUT",
                 "DELETE",
                 "PATCH",
-                "OPTIONS"
-        ));
+                "OPTIONS"));
 
         // Only the three headers the frontend actually sends.
         configuration.setAllowedHeaders(List.of(
                 "Authorization",
                 "Content-Type",
-                "Accept"
-        ));
+                "Accept"));
 
         configuration.setAllowCredentials(true);
 
-        UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
         source.registerCorsConfiguration("/**", configuration);
 
